@@ -5,12 +5,12 @@ export const getLightTheme = (): ThemeOptions => {
     name: "light",
     palette: {
       mode: "light",
-      // primary: {
-      // light: "",
-      // main: "",
-      // dark: "",
-      // contrastText: "",
-      // },
+      primary: {
+        light: "",
+        main: "#6F6FE8",
+        dark: "",
+        contrastText: "",
+      },
       // secondary: {
       // light: "",
       // main: "",
@@ -35,12 +35,12 @@ export const getLightTheme = (): ThemeOptions => {
       // dark: "",
       // contrastText: "",
       // },
-      // error: {
-      // light: "",
-      // main: "",
-      // dark: "",
-      // contrastText: "",
-      // },
+      error: {
+        // light: "",
+        main: "#EF7D70",
+        // dark: "",
+        // contrastText: "",
+      },
       // accent: {
       //   link: "",
       //   success: "",
@@ -48,37 +48,43 @@ export const getLightTheme = (): ThemeOptions => {
       //   warning: "",
       //   error: "",
       // },
-      // common: {},
+      common: {
+        purple: "#AEAEFC",
+        lightPurple: "#D8D8FD",
+        red: "#EF7D70",
+        blue: "#C7C0EA",
+      },
       // element: {
       //   card: "",
       //   popup: "",
       //   background: "",
       //   divider: "",
       // },
-      // gradient: {
-      //   linear: {
-      //     primary: "",
-      //     secondary: "",
-      //   },
-      // },
-      // border: {
-      //   main: "",
-      //   hover: "",
-      //   active: "",
-      // },
+      gradient: {
+        linear: {
+          primary: "linear-gradient(180deg, #D0D0FF 0%, #948DE6 100%)",
+          secondary: "",
+        },
+      },
+      border: {
+        main: "#E7E7EB",
+        hover: "",
+        active: "",
+        input: "#6F6FE8",
+      },
       // grey: {},
-      // text: {
-      // * defaults
-      // primary: "",
-      // secondary: "",
-      // disabled: "",
-      // * commons
-      // * accents
-      // success: "",
-      // info: "",
-      // warning: "",
-      // error: "",
-      // },
+      text: {
+        // * defaults
+        primary: "#181C2F",
+        // secondary: "",
+        // disabled: "",
+        // * commons
+        // * accents
+        // success: "",
+        // info: "",
+        // warning: "",
+        // error: "",
+      },
 
       // action: {
       //   active: '',
@@ -93,28 +99,29 @@ export const getLightTheme = (): ThemeOptions => {
       //   focusOpacity: 0.12,
       //   activatedOpacity: 0.12,
       // },
-      // background: {
-      //   default: "",
-      //   paper: "",
-      //   popup: "",
-      //   navbar: "",
-      //   content: "",
-      //   sidebar: "",
-      //   footer: "",
-      //   success: "",
-      //   info: "",
-      //   warning: "",
-      //   error: "",
-      // },
+      background: {
+        default: "#FEFFF8",
+        onboard: "#FEFFF8",
+        paper: "",
+        popup: "",
+        navbar: "",
+        content: "",
+        sidebar: "",
+        footer: "",
+        success: "",
+        info: "",
+        warning: "",
+        error: "",
+      },
       // divider: "",
     },
     typography: {
-      fontFamily: ['"DM Sans"', "sans-serif"].join(","),
+      fontFamily: ["'Inter'", "sans-serif"].join(","),
       htmlFontSize: 16,
       fontSize: 16,
-      fontWeightBold: 600,
+      fontWeightBold: 700,
       fontWeightMedium: 500,
-      fontWeightRegular: 300,
+      fontWeightRegular: 400,
       fontWeightLight: 300,
       h1: {
         fontSize: "2.75rem",
@@ -162,15 +169,33 @@ export const getLightTheme = (): ThemeOptions => {
         fontWeight: 400,
       },
       button: {
-        fontSize: "0.875rem",
-        fontWeight: 700,
-        lineHeight: 1.7,
+        fontSize: "1rem",
+        fontWeight: 600,
+        lineHeight: 1.25,
       },
     },
     shape: {
       borderRadius: 1,
     },
-    components: {},
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            textTransform: "unset",
+            "& > .MuiButton-startIcon": {
+              marginRight: "6px",
+            },
+          },
+        },
+      },
+      MuiTypography: {
+        styleOverrides: {
+          button: {
+            textTransform: "unset",
+          },
+        },
+      },
+    },
     shadows: [
       "none",
       "0px 2px 1px -1px rgba(0,0,0,0.1),0px 1px 1px 0px rgba(0,0,0,0.04),0px 1px 3px 0px rgba(0,0,0,0.02)",

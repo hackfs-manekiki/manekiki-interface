@@ -1,4 +1,4 @@
-import { isBrowser } from "./isBrowser";
+import { isBrowser } from "src/utils/isBrowser";
 import amplitude from "amplitude-js";
 
 // prettier-ignore

@@ -13,6 +13,8 @@ const Home: NextPage = () => {
       }}
     >
       <Typography variant="h1">Main</Typography>
+      {/* <WalletSelectDialog open={true} /> */}
+      {/* <MetaMaskCard /> */}
     </Box>
   );
 };

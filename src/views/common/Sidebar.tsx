@@ -21,7 +21,7 @@ export const Sidebar: FC<Props> = (props) => {
         },
       }}
       ModalProps={{ keepMounted: true }}
-      variant={isMobile ? "temporary" : "permanent"}
+      variant={isMobile ? "temporary" : "persistent"}
       anchor="left"
       {...drawerProps}
     >

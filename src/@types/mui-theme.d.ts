@@ -23,8 +23,8 @@ declare module "@mui/material/styles" {
     accent: Partial<AccentColors>;
     border: Partial<BorderColors>;
     gradient: {
-      primary: string;
-      secondary: string;
+      linear: Partial<GradientColors>;
+      radial: Partial<GradientColors>;
     };
   }
 
@@ -75,6 +75,8 @@ declare module "@mui/material/styles/createPalette" {
     pink: string;
     orange: string;
     gray: string;
+    purple: string;
+    lightPurple: string;
   }
 
   interface BorderColors {
@@ -82,6 +84,7 @@ declare module "@mui/material/styles/createPalette" {
     active: string;
     hover: string;
     disabled: string;
+    input: string;
   }
 
   interface GradientColors {
@@ -99,6 +102,7 @@ declare module "@mui/material/styles/createPalette" {
     content: string;
     sidebar: string;
     footer: string;
+    onboard: string;
   }
 
   interface TypeText extends AccentColors, CommonColors {

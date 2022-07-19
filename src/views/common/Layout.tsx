@@ -9,6 +9,8 @@ import styled from "@emotion/styled";
 import type { FC, ReactNode } from "react";
 import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
+import { useWeb3React } from "@web3-react/core";
+import { ConnectWalletPage } from "../connect/pages/ConnectWalletPage";
 
 type Props = {
   children: ReactNode;
@@ -19,11 +21,13 @@ const Main = styled("main", {
   shouldForwardProp: (prop: string) => ![""].includes(prop),
 })<{}>(() => ({
   flexGrow: 1, // full-width
+  display: "flex",
+  flexDirection: "column",
+  marginTop: 88,
 }));
 
 export const Layout: FC<Props> = ({ children }) => {
   const router = useRouter();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const isFooterHidden = useMemo(() => {
     return Routes.FOOTER_HIDDEN.some((route) =>
@@ -31,14 +35,18 @@ export const Layout: FC<Props> = ({ children }) => {
     );
   }, [router.pathname]);
 
+  const { isActive, isActivating } = useWeb3React();
+
+  const isConnected = !isActivating && isActive;
+
   return (
     <>
       <Box display="flex" flexDirection="column" minHeight="100vh">
-        <Navbar sx={{ position: "sticky", top: 0, height: "60px", border: "2px dashed" }} />
+        <Navbar sx={{ position: "fixed", top: 0, height: 88 }} />
         <Box flex={1} display="flex" flexDirection="column">
-          <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(!sidebarOpen)} />
+          {/* <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(!sidebarOpen)} /> */}
           <Main>
-            {children}
+            {isConnected ? children : <ConnectWalletPage />}
             {!isFooterHidden && <Footer />}
           </Main>
         </Box>
