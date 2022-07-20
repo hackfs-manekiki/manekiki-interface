@@ -11,12 +11,12 @@ export const getLightTheme = (): ThemeOptions => {
         dark: "",
         contrastText: "",
       },
-      // secondary: {
-      // light: "",
-      // main: "",
-      // dark: "",
-      // contrastText: "",
-      // },
+      secondary: {
+        light: "",
+        main: "#F1F1FF",
+        dark: "",
+        contrastText: "",
+      },
       // success: {
       // light: "",
       // main: "",
@@ -41,13 +41,13 @@ export const getLightTheme = (): ThemeOptions => {
         // dark: "",
         // contrastText: "",
       },
-      // accent: {
-      //   link: "",
-      //   success: "",
-      //   info: "",
-      //   warning: "",
-      //   error: "",
-      // },
+      accent: {
+        link: "#EF7D70",
+        success: "",
+        info: "",
+        warning: "",
+        error: "",
+      },
       common: {
         purple: "#AEAEFC",
         lightPurple: "#D8D8FD",

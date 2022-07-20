@@ -8,6 +8,9 @@ const styles = css`
     padding: 0 !important;
     margin: 0 !important;
   }
+  a {
+    color: #EF7D70;
+  }
 
   *,
   *:before,
