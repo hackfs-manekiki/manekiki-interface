@@ -1,33 +1,55 @@
-import type { CompanyMember } from "./CompanyMember";
-import type { CompanyVaultApprover } from "./CompanyVaultApprover";
+import { CompanyMember } from "./CompanyMember";
 
 export class CompanyVault {
   name = "";
-  admin: CompanyMember | null = null;
-  approvers: CompanyVaultApprover[] = [];
+  admins: CompanyMember[] = [];
+  approvers: CompanyMember[] = [];
   employees: CompanyMember[] = [];
 
   constructor(name: string) {
     this.name = name;
   }
 
-  setAdmin = (admin: CompanyMember) => {
-    this.admin = admin;
+  // setAdmin = (admin: CompanyMember) => {
+  //   this.admin = admin;
+  // };
+
+  // Admins
+  addAdmin = (admin: CompanyMember = new CompanyMember()) => {
+    this.admins = [...this.admins, admin];
   };
 
-  addApprover = (approver: CompanyVaultApprover) => {
+  removeAdmin = (admin: CompanyMember) => {
+    this.admins = this.admins.filter((a) => a.id !== admin.id);
+  };
+
+  removeAdminById = (id: string) => {
+    this.admins = this.admins.filter((a) => a.id !== id);
+  };
+
+  // Approvers
+  addApprover = (approver: CompanyMember) => {
     this.approvers.push(approver);
   };
 
+  removeApprover = (approver: CompanyMember) => {
+    this.approvers = this.approvers.filter((a) => a.name !== approver.name);
+  };
+
+  removeApproverById = (id: string) => {
+    this.approvers = this.approvers.filter((a) => a.id !== id);
+  };
+
+  // Employees
   addEmployee = (employee: CompanyMember) => {
     this.employees.push(employee);
   };
 
-  removeApprover = (approver: CompanyVaultApprover) => {
-    this.approvers = this.approvers.filter((a) => a.name !== approver.name);
+  removeEmployee = (employee: CompanyMember) => {
+    this.employees = this.employees.filter((e) => e.id !== employee.id);
   };
 
-  removeEmployee = (employee: CompanyMember) => {
-    this.employees = this.employees.filter((e) => e.name !== employee.name);
+  removeEmployeeById = (id: string) => {
+    this.employees = this.employees.filter((e) => e.id !== id);
   };
 }

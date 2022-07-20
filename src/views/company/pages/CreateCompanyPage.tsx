@@ -7,6 +7,7 @@ import type { NextPage } from "next";
 import { useMemo } from "react";
 import { PrimaryGradientButton } from "src/components/buttons/PrimaryGradientButton";
 import { createCompanyStore } from "src/stores/createCompanyStore";
+import { CreateCompanyStepFour } from "../CreateCompanyStepFour";
 import { CreateCompanyStepOne } from "../CreateCompanyStepOne";
 import { CreateCompanyStepThree } from "../CreateCompanyStepThree";
 import { CreateCompanyStepTwo } from "../CreateCompanyStepTwo";
@@ -137,13 +138,14 @@ export const CreateCompanyPage: NextPage = observer(() => {
             })}
           </Stepper>
 
-          <Box mt={6} minHeight={350}>
+          <Box mt={6} minHeight={350} width="100%" maxWidth={930}>
             {activeStep === 0 && <CreateCompanyStepOne onKeyDown={handleEnterKeyPress} />}
             {activeStep === 1 && <CreateCompanyStepTwo />}
             {activeStep === 2 && <CreateCompanyStepThree />}
+            {activeStep === 3 && <CreateCompanyStepFour />}
           </Box>
 
-          <Box width="100%" maxWidth={1000} display="flex" justifyContent="space-between">
+          <Box width="100%" maxWidth={1000} display="flex" justifyContent="space-between" my={5}>
             <Button
               variant="text"
               startIcon={

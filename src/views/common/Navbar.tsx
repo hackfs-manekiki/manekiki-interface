@@ -13,16 +13,18 @@ import { WalletSelectDialog } from "../wallet/WalletSelectDialog";
 import { walletStore } from "src/stores/walletStore";
 import { observer } from "mobx-react-lite";
 import { SwitchChainButton } from "src/components/SwitchChainButton";
+import { useRouter } from "next/router";
 
 const Wrapper = styled(Box, {
-  shouldForwardProp: (props: string) => props !== "isScrollTriggered",
-})<{ isScrollTriggered: boolean }>`
+  shouldForwardProp: (props: string) => props !== "isScrollTriggered" && props !== "bgColor",
+})<{ isScrollTriggered: boolean; bgColor: string }>`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: none;
-  backgroundcolor: transparent;
+  background-color: ${({ isScrollTriggered, bgColor }) =>
+    isScrollTriggered ? bgColor : "transparent"};
   z-index: ${({ theme }) => theme.zIndex.drawer + 1};
   transition: background-color 200ms;
 `;
@@ -33,12 +35,14 @@ type Props = {
 
 export const Navbar: FC<Props> = observer((props) => {
   const theme = useTheme();
+  const router = useRouter();
   const isScrollTriggered = useScrollTrigger({ disableHysteresis: true, threshold: 30 });
+  const navbarBgColor = router.pathname.startsWith("/company") ? "#FEFFF8" : "#F5F5F5";
 
   return (
     <>
       <WalletSelectDialog open={walletStore.isWalletOpen} />
-      <Wrapper sx={{ ...props.sx }} isScrollTriggered={isScrollTriggered}>
+      <Wrapper sx={{ ...props.sx }} isScrollTriggered={isScrollTriggered} bgColor={navbarBgColor}>
         <Box
           sx={{
             px: 5.25,

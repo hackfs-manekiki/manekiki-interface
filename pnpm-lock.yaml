@@ -43,6 +43,7 @@ specifiers:
   '@web3-react/url': 8.0.25-beta.0
   '@web3-react/walletconnect': 8.0.35-beta.0
   amplitude-js: ^8.18.3
+  class-transformer: ^0.5.1
   color: ^4.2.3
   eslint: 8.15.0
   eslint-config-next: 12.1.6
@@ -53,11 +54,13 @@ specifiers:
   lodash.clamp: ^4.0.3
   mobx: ^6.5.0
   mobx-react-lite: ^3.4.0
+  nanoid: ^4.0.0
   next: 12.1.6
   next-themes: ^0.2.0
   prettier: ^2.6.2
   react: 18.1.0
   react-dom: 18.1.0
+  react-number-format: ^4.9.3
   type-fest: ^2.12.2
   typescript: 4.6.4
   url-loader: ^4.1.1
@@ -96,15 +99,18 @@ dependencies:
   '@web3-react/url': 8.0.25-beta.0_react@18.1.0
   '@web3-react/walletconnect': 8.0.35-beta.0_atudzq4kpahin26w6cqi3upfgi
   amplitude-js: 8.18.4
+  class-transformer: 0.5.1
   color: 4.2.3
   ethers: 5.6.9
   lodash.clamp: 4.0.3
   mobx: 6.6.0
   mobx-react-lite: 3.4.0_zjzbed4ey2pl6an3m4umzh4gbq
+  nanoid: 4.0.0
   next: 12.1.6_yz5u6557yqtbarbugy7nmayfrq
   next-themes: 0.2.0_2mgcgz5qhsdxw4fgpqzqeafmkq
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
+  react-number-format: 4.9.3_ef5jwxihqo6n7gxfmzogljlgcm
 
 devDependencies:
   '@next/bundle-analyzer': 12.1.6
@@ -4228,6 +4234,10 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
+  /class-transformer/0.5.1:
+    resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
+    dev: false
+
   /cliui/5.0.0:
     resolution: {integrity: sha512-PYeGSEmmHM6zvoef2w8TPzlrnNpXIjTipYK780YswmIP9vjxmd6Y2a3CB2Ks6/AU8NHjZugXvo8w3oWM2qnwXA==}
     dependencies:
@@ -6059,6 +6069,12 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  /nanoid/4.0.0:
+    resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
+
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
@@ -6468,6 +6484,17 @@ packages:
 
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
+    dev: false
+
+  /react-number-format/4.9.3_ef5jwxihqo6n7gxfmzogljlgcm:
+    resolution: {integrity: sha512-am1A1xYAbENuKJ+zpM7V+B1oRTSeOHYltqVKExznIVFweBzhLmOBmyb1DfIKjHo90E0bo1p3nzVJ2NgS5xh+sQ==}
+    peerDependencies:
+      react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.1.0
+      react-dom: 18.1.0_react@18.1.0
     dev: false
 
   /react-transition-group/4.4.2_ef5jwxihqo6n7gxfmzogljlgcm:

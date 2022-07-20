@@ -53,6 +53,7 @@ export const getLightTheme = (): ThemeOptions => {
         lightPurple: "#D8D8FD",
         red: "#EF7D70",
         blue: "#C7C0EA",
+        white: "#FEFFF8",
       },
       // element: {
       //   card: "",
@@ -138,7 +139,7 @@ export const getLightTheme = (): ThemeOptions => {
       },
       h4: {
         fontSize: "1.25rem",
-        fontWeight: 700,
+        fontWeight: 600,
       },
       h5: {
         fontSize: "1.125rem",
@@ -165,8 +166,9 @@ export const getLightTheme = (): ThemeOptions => {
         fontWeight: 500,
       },
       caption: {
-        fontSize: "0.625rem",
+        fontSize: "0.75rem",
         fontWeight: 400,
+        lineHeight: 1.5,
       },
       button: {
         fontSize: "1rem",
