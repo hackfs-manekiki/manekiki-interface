@@ -106,7 +106,7 @@ export const getLightTheme = (): ThemeOptions => {
         paper: "",
         popup: "",
         navbar: "",
-        content: "",
+        content: "#F5F5F5h",
         sidebar: "",
         footer: "",
         success: "",

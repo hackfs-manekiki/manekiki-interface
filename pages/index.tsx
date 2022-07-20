@@ -1,18 +1,28 @@
 import { Box, Typography } from "@mui/material";
 import type { NextPage } from "next";
+import { Sidebar } from "src/components/Sidebar";
+import { Switch, useTheme } from "@mui/material";
 
 const Home: NextPage = () => {
+  const theme = useTheme()
   return (
     <Box
-      minHeight="50vh"
+      minHeight="100vh"
       display="flex"
-      alignItems="center"
-      justifyContent="center"
       sx={{
-        border: "2px dashed",
+        backgroundColor: theme.palette.background.content
       }}
     >
-      <Typography variant="h1">Main</Typography>
+      <Sidebar />
+      <Box
+        width="100%"
+        margin="71px 0 0 216px"
+        padding="0 150px 0 35px"
+      >
+        <Typography variant="h4">
+          View Assets (3 Vaults)
+        </Typography>
+      </Box>
       {/* <WalletSelectDialog open={true} /> */}
       {/* <MetaMaskCard /> */}
     </Box>
