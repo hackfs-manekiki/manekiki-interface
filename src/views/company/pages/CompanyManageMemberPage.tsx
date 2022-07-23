@@ -3,8 +3,6 @@ import { faMinusCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Autocomplete, Box, Button, IconButton, Paper, Stack, Typography } from "@mui/material";
 import { useWeb3React } from "@web3-react/core";
-import { observer } from "mobx-react-lite";
-import { useEffect, useState } from "react";
 import { GeneralOutlinedInput } from "src/components/inputs/GeneralOutlinedInput";
 import { createCompanyStore } from "src/stores/createCompanyStore";
 import { shortenAddress } from "src/utils/shortenAddress";

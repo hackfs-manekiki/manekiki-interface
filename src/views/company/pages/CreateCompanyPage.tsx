@@ -1,11 +1,8 @@
 import styled from "@emotion/styled";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Step, StepConnector, StepLabel, Stepper, Typography } from "@mui/material";
+import { Box, Step, StepConnector, StepLabel, Stepper, Typography } from "@mui/material";
 import { Observer, observer } from "mobx-react-lite";
 import type { NextPage } from "next";
 import { useMemo } from "react";
-import { PrimaryGradientButton } from "src/components/buttons/PrimaryGradientButton";
 import { createCompanyStore } from "src/stores/createCompanyStore";
 import { CreateCompanyStepFive } from "../components/create-company/CreateCompanyStepFive";
 import { CreateCompanyStepFour } from "../components/create-company/CreateCompanyStepFour";

@@ -1,6 +1,6 @@
-import { faChevronLeft, faTrash, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, IconButton, InputLabel, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, InputLabel, Stack, Typography } from "@mui/material";
 import { useEffect, useId, useState } from "react";
 import { PrimaryGradientButton } from "src/components/buttons/PrimaryGradientButton";
 import { WhiteBackgroundInput } from "src/components/inputs/WhiteBackgroundInput";

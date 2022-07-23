@@ -1,6 +1,5 @@
 import { coinbaseWallet, hooks as coinbaseWalletHooks } from "./coinbaseWallet";
 import { hooks as metaMaskHooks, metaMask } from "./metaMask";
-import { hooks as networkHooks, network } from "./network";
 import { hooks as walletConnectHooks, walletConnect } from "./walletConnect";
 
 // types

@@ -1,18 +1,15 @@
 import styled from "@emotion/styled";
-import { Box, Stack, Typography, useScrollTrigger, useTheme } from "@mui/material";
+import { Box, Stack, useScrollTrigger, useTheme } from "@mui/material";
 import Link from "next/link";
-import { ThemeToggleSwitch } from "src/components/ThemeToggleSwitch";
-import { ManekikiLogo, NextJSIcon } from "src/svgs";
+import { ManekikiLogo } from "src/svgs";
 
 import type { BoxProps } from "@mui/material";
 
 import type { FC } from "react";
-import { ConnectWithSelect } from "src/components/ConnectWithSelect";
 import { ConnectWalletButton } from "src/components/ConnectWalletButton";
 import { WalletSelectDialog } from "../wallet/WalletSelectDialog";
 import { walletStore } from "src/stores/walletStore";
 import { observer } from "mobx-react-lite";
-import { SwitchChainButton } from "src/components/SwitchChainButton";
 import { useRouter } from "next/router";
 
 const Wrapper = styled(Box, {

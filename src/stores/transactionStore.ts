@@ -1,6 +1,5 @@
 import { BaseProvider } from "@ethersproject/providers";
 import { ethers } from "ethers";
-import { autorun } from "mobx";
 import type { ManekikiTransaction } from "src/interfaces/manekiki-tx";
 import { isBrowser } from "src/utils/isBrowser";
 

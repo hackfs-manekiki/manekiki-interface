@@ -1,8 +1,7 @@
 import { forwardRef, useState } from "react";
 import { faChevronLeft, faMinusCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, Dialog, IconButton, MenuItem, Paper, Stack, Typography } from "@mui/material";
-import { observer } from "mobx-react-lite";
+import { Box, Button, Dialog, IconButton, MenuItem, Stack, Typography } from "@mui/material";
 import { GeneralSelect } from "src/components/selects/GeneralSelect";
 import { createCompanyStore } from "src/stores/createCompanyStore";
 import { shortenAddress } from "src/utils/shortenAddress";
@@ -12,9 +11,6 @@ import type { FC } from "react";
 import type { IconButtonProps } from "@mui/material";
 import type { InputAttributes } from "react-number-format";
 import { useWeb3React } from "@web3-react/core";
-import { FactoryABI } from "src/abis";
-import { BigNumber, ethers } from "ethers";
-import type { TransactionReceipt } from "@ethersproject/providers";
 import { PrimaryGradientButton } from "src/components/buttons/PrimaryGradientButton";
 import type { NextPage } from "next";
 

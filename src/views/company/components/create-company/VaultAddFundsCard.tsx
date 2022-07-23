@@ -18,7 +18,6 @@ import QRCode from "qrcode";
 
 import type { FC } from "react";
 import type { CompanyVault } from "src/classes/company/CompanyVault";
-import { BigNumber } from "@ethersproject/bignumber";
 import { useWeb3React } from "@web3-react/core";
 import { useConstant } from "src/hooks/useConstant";
 import type { ContractAddresses } from "src/constants/contracts";

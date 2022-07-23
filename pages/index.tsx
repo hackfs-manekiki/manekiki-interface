@@ -1,8 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import type { NextPage } from "next";
-import { Sidebar } from "src/components/Sidebar";
-import { Switch, useTheme } from "@mui/material";
-import { BaseTable } from "src/components/tables/BaseTable";
+import { useTheme } from "@mui/material";
 import { ApprovalTable } from "src/components/tables/ApprovalTable";
 import { HistoryTable } from "src/components/tables/HistoryTable";
 

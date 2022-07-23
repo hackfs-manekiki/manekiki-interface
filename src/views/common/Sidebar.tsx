@@ -1,4 +1,4 @@
-import { Box, Drawer, List, ListItem, ListItemButton, Typography } from "@mui/material";
+import { Drawer, List, ListItem, ListItemButton, Typography } from "@mui/material";
 import { useResponsive } from "src/hooks/useResponsive";
 import Link from "next/link";
 import type { DrawerProps } from "@mui/material";
