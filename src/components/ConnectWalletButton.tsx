@@ -30,7 +30,7 @@ export const ConnectWalletButton = () => {
           color: "border.main",
           borderColor: "border.main",
           border: "1px solid",
-          backgroundColor: "transparent",
+          backgroundColor: "white",
           borderRadius: 999,
           height: 48,
           minWidth: 150,

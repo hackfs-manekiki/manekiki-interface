@@ -5,11 +5,15 @@ import Color from "color";
 import { useMuiTheme } from "src/hooks/themes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useWeb3React } from "@web3-react/core";
 
 const companies = [{ name: "Manekiki", slug: "manekiki" }];
 
 export const SelectCompanyPage: NextPage = () => {
   const theme = useMuiTheme();
+  const { account } = useWeb3React();
+
+  // todo: query company from blockchain
 
   return (
     <Box
@@ -51,7 +55,7 @@ export const SelectCompanyPage: NextPage = () => {
                 </Link>
               );
             })}
-            <Link href={`/company/create`} passHref>
+            <Link href={`/create-company`} passHref>
               <Button
                 variant="text"
                 fullWidth

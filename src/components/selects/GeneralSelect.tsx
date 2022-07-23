@@ -4,17 +4,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FormControl, InputLabel, Select } from "@mui/material";
 
 import type { FC } from "react";
-import type { SelectProps } from "@mui/material";
+import type { SelectProps, InputLabelProps } from "@mui/material";
 
-export const GeneralSelect: FC<SelectProps> = ({ label, ...props }) => {
+export const GeneralSelect: FC<SelectProps & { inputLabelProps?: InputLabelProps }> = ({
+  label,
+  inputLabelProps = {},
+  ...props
+}) => {
   const id = useId();
 
   return (
     <FormControl>
       {label && (
         <InputLabel
+          {...inputLabelProps}
           id={`${id}-label`}
-          sx={{ color: "#B6B6B6", "&.MuiInputLabel-shrink": { display: "none" } }}
+          sx={{
+            color: "#B6B6B6",
+            "&.MuiInputLabel-shrink": { display: "none" },
+            ...inputLabelProps.sx,
+          }}
         >
           {label}
         </InputLabel>

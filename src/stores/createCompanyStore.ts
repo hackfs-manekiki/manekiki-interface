@@ -13,7 +13,7 @@ class CreateCompanyStore {
         const storedValue = JSON.parse(storedValueString);
         this.activeStep = storedValue.activeStep;
         this.companyName = storedValue.companyName;
-        this.owner = storedValue.owner;
+        this.owner = storedValue.owner ?? new CompanyMember();
         // this.owner = plainToInstance(CompanyMember, storedValue.owner as object);
         this.vaults = plainToInstance(CompanyVault, storedValue.vaults);
         // this.vaults = storedValue.vaults.map((vault: any) => plainToInstance(CompanyVault, vault));
@@ -24,6 +24,7 @@ class CreateCompanyStore {
       } catch {
         this.activeStep = 0;
         this.companyName = "";
+        this.owner = new CompanyMember();
         this.vaults = [];
         this.members = [];
       }
@@ -179,6 +180,14 @@ class CreateCompanyStore {
   };
   nextStep = () => {
     this.activeStep = clamp(this.activeStep + 1, 0, 4);
+  };
+
+  reset = () => {
+    this.activeStep = 0;
+    this.companyName = "";
+    this.vaults = [];
+    this.owner = new CompanyMember();
+    this.members = [];
   };
 }
 

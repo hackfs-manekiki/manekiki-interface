@@ -1,7 +1,5 @@
 import { CoinbaseWallet } from "@web3-react/coinbase-wallet";
-import { GnosisSafe } from "@web3-react/gnosis-safe";
 import { MetaMask } from "@web3-react/metamask";
-import { Network } from "@web3-react/network";
 import { WalletConnect } from "@web3-react/walletconnect";
 import { MetaMaskIcon, WalletConnectIcon } from "src/svgs";
 import { Box } from "@mui/material";

@@ -12,7 +12,7 @@ import Pagination from "@mui/material/Pagination";
 import { SecondaryButton } from "../buttons/SecondaryButton";
 
 const mockArray = () => {
-  let arr = [];
+  const arr = [];
   for (let i = 0; i < 10; i++) {
     arr.push(mockData);
   }
@@ -24,9 +24,10 @@ const mockData: Approvals = {
   price: 300,
   priceDenom: "USDC",
   requester: "Apemon",
-  dateTime: "16/7/2022 11:11:12",
+  dateTime: "16/7/2022, 11:11:12",
   status: "pending",
 };
+
 type TableProps = {
   data: Approvals[];
   onViewDetail: any;
@@ -58,8 +59,21 @@ export const ApprovalTable = () => {
     setPage(newPage);
   };
 
+  const getHeaderAlignment = (header: typeof headers[number]) => {
+    switch (header) {
+      case "Price":
+        return "right";
+      case "Status":
+        return "center";
+      default:
+        return "left";
+    }
+  };
+
+  // TODO: query real data
+
   return (
-    <TableContainer sx={{ boxShadow: "none" }} component={Paper}>
+    <TableContainer sx={{ boxShadow: "none", backgroundColor: "transparent" }} component={Paper}>
       <Table
         sx={{
           minWidth: 650,
@@ -74,25 +88,26 @@ export const ApprovalTable = () => {
           }}
         >
           <TableRow>
-            {headers.map((header) => {
+            {headers.map((header, index) => {
               return (
                 <TableCell
                   sx={{
                     border: "0px",
                   }}
-                  key={header}
-                  align="left"
+                  key={index}
+                  align={getHeaderAlignment(header)}
                 >
                   <Typography fontWeight="700">{header}</Typography>
                 </TableCell>
               );
             })}
+            <TableCell sx={{ border: "none" }} />
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.slice(page - 1 * pageSize, page * pageSize + pageSize).map((row) => (
+          {data.slice(page - 1 * pageSize, page * pageSize + pageSize).map((row, index) => (
             <TableRow
-              key={row.detail}
+              key={index}
               sx={{
                 borderRadius: 6,
               }}
@@ -107,7 +122,12 @@ export const ApprovalTable = () => {
               >
                 {row.detail}
               </StyledTableCell>
-              <StyledTableCell align="left">{`${row.price} ${row.priceDenom}`}</StyledTableCell>
+              <StyledTableCell align="right">
+                <Typography
+                  variant="subtitle1"
+                  sx={{ color: "#40A331" }}
+                >{`${row.price} ${row.priceDenom}`}</Typography>
+              </StyledTableCell>
               <StyledTableCell align="left">{row.requester}</StyledTableCell>
               <StyledTableCell align="left">{row.dateTime}</StyledTableCell>
               <StyledTableCell
@@ -115,22 +135,54 @@ export const ApprovalTable = () => {
                   borderTopRightRadius: "10px",
                   borderBottomRightRadius: "10px",
                 }}
-                align="left"
+                align="center"
               >
                 {row.status}
               </StyledTableCell>
-              <SecondaryButton
-                sx={{
-                  marginLeft: "16px",
-                }}
-              >
-                View Details
-              </SecondaryButton>
+              <TableCell sx={{ py: 0, border: "none", background: "transparent" }}>
+                <SecondaryButton
+                  sx={{
+                    width: 120,
+                    height: 36,
+                    px: 0,
+                    my: "auto",
+                  }}
+                >
+                  <Typography variant="body2" color="textPrimary">
+                    <b>View Details</b>
+                  </Typography>
+                </SecondaryButton>
+              </TableCell>
             </TableRow>
           ))}
+          <TableRow>
+            <TableCell colSpan={5} sx={{ p: 0, border: "none" }}>
+              <Pagination
+                count={totalPage}
+                page={page}
+                onChange={handleChangePage}
+                sx={{
+                  width: "fit-content",
+                  ml: "auto",
+                  fontSize: "12px",
+                  "& .MuiPaginationItem-previousNext": {
+                    background: "#D8D8FD",
+                    color: "#8383FF",
+                  },
+                  "& .MuiPaginationItem-root": {
+                    fontWeight: "700",
+                  },
+                  "& .Mui-selected": {
+                    backgroundColor: "#EF7D70 !important",
+                    color: "white",
+                  },
+                }}
+              />
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
-      <Box marginRight="150px" marginTop="42px" display="flex" justifyContent="flex-end">
+      {/* <Box mr={22} mt={1} display="flex" justifyContent="flex-end">
         <Pagination
           count={totalPage}
           page={page}
@@ -150,7 +202,7 @@ export const ApprovalTable = () => {
             },
           }}
         />
-      </Box>
+      </Box> */}
     </TableContainer>
   );
 };

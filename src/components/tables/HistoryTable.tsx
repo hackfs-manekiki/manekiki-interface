@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import styled from "@emotion/styled";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,17 +7,12 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
-import { SecondaryButton } from "../buttons/SecondaryButton";
-
-const mockArray = () => {
-  let arr = [];
-  for (let i = 0; i < 10; i++) {
-    arr.push(mockData);
-  }
-  return arr;
-};
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight, faExternalLink } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const mockData: ApprovalHistory = {
   from: "Tech",
@@ -54,27 +49,48 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: "white",
 }));
 
-export const HistoryTable = () => {
-  const data = mockArray();
+type Props = {
+  pageSize?: number;
+};
+export const HistoryTable = ({ pageSize = 10 }) => {
+  const router = useRouter();
+  const slug = router.query.slug as string;
+  const data = Array.from({ length: 28 }).map(() => ({ ...mockData }));
   const [page, setPage] = useState(1);
-  const pageSize = 10;
-  const totalPage = (data.length + pageSize - 1) / pageSize;
+
+  const totalPage = useMemo(() => {
+    return Math.ceil(data.length / pageSize);
+  }, [data.length, pageSize]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
+  // TODO: query real data
+
   return (
-    <Box marginTop="30px">
+    <Box>
       <Box width="100%" display="flex" justifyContent="space-between">
         <Box>
           <Typography variant="h4">History</Typography>
         </Box>
-        <Box>
-          <a src="google.com">see more</a>
-        </Box>
+        {router.pathname === "/company/[slug]/history" ? null : (
+          <Link href={{ pathname: "/company/[slug]/history", query: { slug } }} passHref>
+            <Button
+              variant="text"
+              sx={{ color: "#EF7D70", ":hover": { backgroundColor: "transparent" } }}
+              endIcon={
+                <Box mt={0.5} ml={-0.5}>
+                  <FontAwesomeIcon icon={faChevronRight} size="xs" />
+                </Box>
+              }
+            >
+              <Typography sx={{ fontSize: 14, lineHeight: "17px" }}>see more</Typography>
+            </Button>
+          </Link>
+        )}
       </Box>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} elevation={0} sx={{ backgroundColor: "transparent" }}>
         <Table
           sx={{
             minWidth: 650,
@@ -102,10 +118,11 @@ export const HistoryTable = () => {
                   </TableCell>
                 );
               })}
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.slice(page - 1 * pageSize, page * pageSize + pageSize).map((row) => (
+            {data.slice((page - 1) * pageSize, page * pageSize).map((row) => (
               <TableRow
                 key={row.detail}
                 sx={{
@@ -128,20 +145,59 @@ export const HistoryTable = () => {
                 <StyledTableCell align="left">{row.requester}</StyledTableCell>
                 <StyledTableCell align="left">{row.dateTime}</StyledTableCell>
                 <StyledTableCell align="left">{row.status}</StyledTableCell>
+                <StyledTableCell align="left">{row.approver}</StyledTableCell>
                 <StyledTableCell
+                  align="center"
                   sx={{
                     borderTopRightRadius: "10px",
                     borderBottomRightRadius: "10px",
                   }}
-                  align="left"
                 >
-                  {row.approver}
+                  <IconButton
+                    sx={{
+                      color: "white",
+                      backgroundColor: "common.purple",
+                      width: 24,
+                      height: 24,
+                      fontSize: 16,
+                      ":hover": {
+                        backgroundColor: "common.purple",
+                      },
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faExternalLink} size="xs" />
+                  </IconButton>
                 </StyledTableCell>
               </TableRow>
             ))}
+            <TableRow>
+              <TableCell colSpan={9} sx={{ p: 0, border: "none" }}>
+                <Pagination
+                  count={totalPage}
+                  page={page}
+                  onChange={handleChangePage}
+                  sx={{
+                    fontSize: "12px",
+                    width: "fit-content",
+                    ml: "auto",
+                    "& .MuiPaginationItem-previousNext": {
+                      background: "#D8D8FD",
+                      color: "#8383FF",
+                    },
+                    "& .MuiPaginationItem-root": {
+                      fontWeight: "700",
+                    },
+                    "& .Mui-selected": {
+                      backgroundColor: "#EF7D70 !important",
+                      color: "white",
+                    },
+                  }}
+                />
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
-        <Box marginRight="150px" marginTop="42px" display="flex" justifyContent="flex-end">
+        {/* <Box mt={2} mb={5} mr={0} display="flex" justifyContent="flex-end">
           <Pagination
             count={totalPage}
             page={page}
@@ -161,7 +217,7 @@ export const HistoryTable = () => {
               },
             }}
           />
-        </Box>
+        </Box> */}
       </TableContainer>
     </Box>
   );

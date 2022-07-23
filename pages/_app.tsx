@@ -35,7 +35,7 @@ const CustomApp: FC<CustomAppProps> = (props) => {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>NextJS Skeleton</title>
+        <title>Manekiki</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <GlobalStyles />

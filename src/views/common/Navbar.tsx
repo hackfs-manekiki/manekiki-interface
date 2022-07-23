@@ -36,8 +36,12 @@ type Props = {
 export const Navbar: FC<Props> = observer((props) => {
   const theme = useTheme();
   const router = useRouter();
+  const slug = router.query.slug as string;
   const isScrollTriggered = useScrollTrigger({ disableHysteresis: true, threshold: 30 });
-  const navbarBgColor = router.pathname.startsWith("/company") ? "#FEFFF8" : "#F5F5F5";
+
+  const navbarBgColor = ["/create-company", "/select-company"].includes(router.pathname)
+    ? "#FEFFF8"
+    : "#F8F8FF";
 
   return (
     <>
@@ -57,7 +61,7 @@ export const Navbar: FC<Props> = observer((props) => {
             },
           }}
         >
-          <Link href="/" passHref>
+          <Link href={slug ? `/company/${slug}/dashboard` : "select-company"} passHref>
             <Box component="a" color={theme.palette.mode === "light" ? "black" : "white"} px={1.5}>
               <ManekikiLogo height={28} width={null} style={{ verticalAlign: "middle" }} />
             </Box>

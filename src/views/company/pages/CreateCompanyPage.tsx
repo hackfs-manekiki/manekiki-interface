@@ -7,10 +7,11 @@ import type { NextPage } from "next";
 import { useMemo } from "react";
 import { PrimaryGradientButton } from "src/components/buttons/PrimaryGradientButton";
 import { createCompanyStore } from "src/stores/createCompanyStore";
-import { CreateCompanyStepFour } from "../CreateCompanyStepFour";
-import { CreateCompanyStepOne } from "../CreateCompanyStepOne";
-import { CreateCompanyStepThree } from "../CreateCompanyStepThree";
-import { CreateCompanyStepTwo } from "../CreateCompanyStepTwo";
+import { CreateCompanyStepFive } from "../components/create-company/CreateCompanyStepFive";
+import { CreateCompanyStepFour } from "../components/create-company/CreateCompanyStepFour";
+import { CreateCompanyStepOne } from "../components/create-company/CreateCompanyStepOne";
+import { CreateCompanyStepThree } from "../components/create-company/CreateCompanyStepThree";
+import { CreateCompanyStepTwo } from "../components/create-company/CreateCompanyStepTwo";
 
 const steps = [
   {
@@ -26,7 +27,7 @@ const steps = [
     label: "Set Authorizations",
   },
   {
-    label: "Ad Funds",
+    label: "Add Funds",
   },
 ];
 
@@ -99,6 +100,7 @@ export const CreateCompanyPage: NextPage = observer(() => {
           justifyContent="flex-start"
           alignItems="center"
           mt={7.75}
+          pb={4}
           sx={{ backgroundColor: "background.onboard" }}
         >
           <Typography sx={{ fontWeight: 700, fontSize: 28 }} textTransform="uppercase">
@@ -138,14 +140,15 @@ export const CreateCompanyPage: NextPage = observer(() => {
             })}
           </Stepper>
 
-          <Box mt={6} minHeight={350} width="100%" maxWidth={930}>
+          <Box mt={6} minHeight={350} width="100%" maxWidth={1200}>
             {activeStep === 0 && <CreateCompanyStepOne onKeyDown={handleEnterKeyPress} />}
             {activeStep === 1 && <CreateCompanyStepTwo />}
             {activeStep === 2 && <CreateCompanyStepThree />}
             {activeStep === 3 && <CreateCompanyStepFour />}
+            {activeStep === 4 && <CreateCompanyStepFive />}
           </Box>
 
-          <Box width="100%" maxWidth={1000} display="flex" justifyContent="space-between" my={5}>
+          {/* <Box width="100%" maxWidth={1000} display="flex" justifyContent="space-between" my={5}>
             <Button
               variant="text"
               startIcon={
@@ -167,7 +170,7 @@ export const CreateCompanyPage: NextPage = observer(() => {
                 Continue
               </Typography>
             </PrimaryGradientButton>
-          </Box>
+          </Box> */}
         </Box>
       )}
     </Observer>

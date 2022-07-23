@@ -1,4 +1,9 @@
 export { default as NextJSIcon } from "./nextjs.svg";
 export { default as ManekikiLogo } from "./manekiki-logo.svg";
+export { default as ManekikiIcon } from "./manekiki-icon.svg";
+export { default as ManekikiText } from "./manekiki-text.svg";
 export { default as MetaMaskIcon } from "./metamask-icon.svg";
 export { default as WalletConnectIcon } from "./walletconnect-icon.svg";
+export { default as CopyIcon } from "./copy-icon.svg";
+export { default as EditIcon } from "./edit-icon.svg";
+export { default as ImageIcon } from "./image-icon.svg";

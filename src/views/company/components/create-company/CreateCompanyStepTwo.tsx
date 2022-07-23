@@ -1,10 +1,10 @@
 import { Autocomplete, Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import { GeneralOutlinedInput } from "src/components/inputs/GeneralOutlinedInput";
 import { createCompanyStore } from "src/stores/createCompanyStore";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinusCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faMinusCircle, faPlus, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import type { FC } from "react";
 const suggestions = [
   "Suggestion",
@@ -29,8 +29,10 @@ export const CreateCompanyStepTwo: FC<Props> = observer(() => {
     createCompanyStore.addVault(name);
   };
 
+  const inputRef = useRef<HTMLInputElement>();
+
   return (
-    <Box>
+    <Box display="flex" flexDirection="column" alignItems="center">
       <Typography
         sx={{ fontSize: 20, fontWeight: 600, mb: 3 }}
         textTransform="capitalize"
@@ -70,7 +72,7 @@ export const CreateCompanyStepTwo: FC<Props> = observer(() => {
       {!isAdding ? (
         <Button
           variant="outlined"
-          sx={{ height: 60, width: 600, borderRadius: 12, background: "rgba(216, 216, 253, 0.1)" }}
+          sx={{ height: 60, width: 640, borderRadius: 12, background: "rgba(216, 216, 253, 0.1)" }}
           startIcon={<FontAwesomeIcon icon={faPlus} />}
           disableRipple
           onClick={() => setIsAdding(true)}
@@ -78,34 +80,52 @@ export const CreateCompanyStepTwo: FC<Props> = observer(() => {
           Add more vault
         </Button>
       ) : (
-        <Autocomplete
-          freeSolo
-          options={suggestions.filter(
-            (option) => !createCompanyStore.vaults.some((vault) => vault.name === option),
-          )}
-          // value={createCompanyStore.vaultName}
-          onChange={(e, value) => {
-            if (!value) return;
-            createCompanyStore.addVault(value);
-          }}
-          // onInputChange={(e, value) => createCompanyStore.setVaultName(value ?? "")}
-          getOptionDisabled={(option) => option === "Suggestion"}
-          renderInput={(params) => (
-            <GeneralOutlinedInput
-              {...params}
-              InputProps={{ ...params.InputProps, style: { fontSize: 20, lineHeight: 1.4 } }}
-              placeholder="Name Your Vault"
-            />
-          )}
-          componentsProps={{
-            paper: {
-              sx: {
-                borderRadius: 12,
-                boxShadow: "0px 17px 24px rgba(189, 179, 199, 0.38)",
+        <Stack direction="row" spacing={1}>
+          <Autocomplete
+            freeSolo
+            options={suggestions.filter(
+              (option) => !createCompanyStore.vaults.some((vault) => vault.name === option),
+            )}
+            // value={createCompanyStore.vaultName}
+            onChange={(e, value) => {
+              if (!value) return;
+              createCompanyStore.addVault(value);
+            }}
+            // onInputChange={(e, value) => createCompanyStore.setVaultName(value ?? "")}
+            getOptionDisabled={(option) => option === "Suggestion"}
+            renderInput={(params) => (
+              <GeneralOutlinedInput
+                {...params}
+                InputProps={{
+                  ...params.InputProps,
+                  style: { fontSize: 20, lineHeight: 1.4 },
+                  inputRef,
+                }}
+                placeholder="Name Your Vault"
+              />
+            )}
+            componentsProps={{
+              paper: {
+                sx: {
+                  borderRadius: 12,
+                  boxShadow: "0px 17px 24px rgba(189, 179, 199, 0.38)",
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+          <IconButton
+            size="small"
+            sx={{ color: "#948DE6", ":hover": { backgroundColor: "none" } }}
+            disableRipple
+            onClick={() => {
+              const vaultName = inputRef.current?.value;
+              if (!vaultName) return;
+              createCompanyStore.addVault(vaultName);
+            }}
+          >
+            <FontAwesomeIcon icon={faPlusCircle} />
+          </IconButton>
+        </Stack>
       )}
     </Box>
   );

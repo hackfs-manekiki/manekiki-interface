@@ -17,12 +17,12 @@ export const getLightTheme = (): ThemeOptions => {
         dark: "",
         contrastText: "",
       },
-      // success: {
-      // light: "",
-      // main: "",
-      // dark: "",
-      // contrastText: "",
-      // },
+      success: {
+        // light: "",
+        main: "#6BCA5C",
+        // dark: "",
+        // contrastText: "",
+      },
       // info: {
       // light: "",
       // main: "",
@@ -101,9 +101,9 @@ export const getLightTheme = (): ThemeOptions => {
       //   activatedOpacity: 0.12,
       // },
       background: {
-        default: "#FEFFF8",
+        default: "#F8F8FF",
         onboard: "#FEFFF8",
-        paper: "",
+        paper: "#FFF",
         popup: "",
         navbar: "",
         content: "#F5F5F5h",
@@ -114,13 +114,13 @@ export const getLightTheme = (): ThemeOptions => {
         warning: "",
         error: "",
       },
-      // divider: "",
+      divider: "#9494EB",
     },
     typography: {
       fontFamily: ["'Inter'", "sans-serif"].join(","),
       htmlFontSize: 16,
       fontSize: 16,
-      fontWeightBold: 700,
+      fontWeightBold: 600,
       fontWeightMedium: 500,
       fontWeightRegular: 400,
       fontWeightLight: 300,
@@ -135,7 +135,7 @@ export const getLightTheme = (): ThemeOptions => {
       },
       h3: {
         fontSize: "1.5rem",
-        fontWeight: 700,
+        fontWeight: 600,
       },
       h4: {
         fontSize: "1.25rem",
@@ -150,20 +150,24 @@ export const getLightTheme = (): ThemeOptions => {
         fontWeight: 700,
       },
       body1: {
-        fontSize: "0.875rem",
+        fontSize: "1rem",
+        lineHeight: 1.25,
         fontWeight: 400,
       },
       body2: {
-        fontSize: "0.75rem",
+        fontSize: "0.875rem",
+        lineHeight: "20px",
         fontWeight: 400,
       },
       subtitle1: {
-        fontSize: "1.5rem",
+        fontSize: "0.75rem",
         fontWeight: 400,
+        lineHeight: 1.25,
       },
       subtitle2: {
-        fontSize: "0.75rem",
-        fontWeight: 500,
+        fontSize: "0.625rem",
+        fontWeight: 400,
+        lineHeight: 1.2,
       },
       caption: {
         fontSize: "0.75rem",

@@ -8,7 +8,13 @@ const nextConfig = {
   reactStrictMode: true,
 
   async redirects() {
-    return [];
+    return [
+      {
+        source: "/",
+        destination: "/select-company",
+        permanent: false,
+      },
+    ];
   },
   images: {
     domains: [],
