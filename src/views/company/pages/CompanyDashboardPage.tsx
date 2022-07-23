@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import { abi } from "src/abis";
 import { ApprovalTable } from "src/components/tables/ApprovalTable";
 import { HistoryTable } from "src/components/tables/HistoryTable";
 import { DashboardVaultCard } from "../components/dashboard/DashbordVaultCard";
