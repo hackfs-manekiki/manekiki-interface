@@ -13,6 +13,8 @@ import type { ContractAddresses, ContractAddressKey } from "src/constants/contra
 import type { SupportedChainIds } from "src/constants/enums/chain-id.enum";
 import { useConstant } from "src/hooks/useConstant";
 import { useUserVaults } from "src/hooks/vaults/useUserVaults";
+import { useVaultBalances } from "src/hooks/vaults/useVaultBalances";
+import { shortenAddress } from "src/utils/shortenAddress";
 
 export const CompanyCreatePaymentPage = () => {
   const paymentNameId = useId();
@@ -146,7 +148,12 @@ export const CompanyCreatePaymentPage = () => {
               vaults.map((vault) => {
                 return (
                   <MenuItem key={vault.address} value={vault.address}>
-                    {vault.name}
+                    <Typography component="span" sx={{ mr: 1 }}>
+                      {vault.name}
+                    </Typography>
+                    <Typography component="span" variant="subtitle1" color="textSecondary">
+                      ({shortenAddress(vault.address, 8)})
+                    </Typography>
                   </MenuItem>
                 );
               })
