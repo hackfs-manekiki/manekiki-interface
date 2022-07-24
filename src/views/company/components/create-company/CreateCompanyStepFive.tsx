@@ -55,7 +55,9 @@ export const CreateCompanyStepFive = observer(() => {
           <Link href={`/company/${createCompanyStore.companySlug}/dashboard`} passHref>
             <PrimaryGradientButton
               disabled={!createCompanyStore.companyName}
-              onClick={createCompanyStore.nextStep}
+              onClick={() => {
+                createCompanyStore.reset();
+              }}
             >
               <Typography variant="button" color="textPrimary">
                 Continue
