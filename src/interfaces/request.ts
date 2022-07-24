@@ -2,11 +2,13 @@ export interface RequestHistory {
   name: string;
   detail: string;
   vaultName: string;
+  vaultAddress: string;
   attachment: string;
   recipientAddress: string;
   recipientName: string;
   requesterName: string;
   requesterAddress: string;
+  requestId: string;
   requestTimestamp: string;
   requestTxhash: string;
   status: string;

@@ -149,7 +149,7 @@ export const VaultAddFundsCard: FC<Props> = ({ vault, ...props }) => {
             >
               <MenuItem value="usdt">USDT</MenuItem>
               <MenuItem value="usdc">USDC</MenuItem>
-              <MenuItem value="kiusd">kiUSD</MenuItem>
+              <MenuItem value="kiusd">KiUSD</MenuItem>
             </GeneralSelect>
             <Button
               variant="contained"

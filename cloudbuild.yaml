@@ -4,6 +4,8 @@ steps:
     args:
       - --destination
       - gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME
+      - --build-arg
+      - NEXT_PUBLIC_API_URL=${_NEXT_PUBLIC_API_URL}
       - --cache=true
 
   # Deploy container image to Cloud Run

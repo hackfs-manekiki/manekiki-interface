@@ -62,10 +62,6 @@ export const HistoryTable = ({ pageSize = 10 }) => {
   const data = Array.from({ length: 28 }).map(() => ({ ...mockData }));
   const [page, setPage] = useState(1);
 
-  const totalPage = useMemo(() => {
-    return Math.ceil(data.length / pageSize);
-  }, [data.length, pageSize]);
-
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -76,6 +72,11 @@ export const HistoryTable = ({ pageSize = 10 }) => {
     loading: isHistoriesLoading,
     error: isHistoriesError,
   } = useUserHistories();
+
+  const totalPage = useMemo(() => {
+    if (!histories) return 1;
+    return Math.ceil(histories.length / pageSize);
+  }, [histories, pageSize]);
 
   return (
     <Box>
@@ -168,7 +169,7 @@ export const HistoryTable = ({ pageSize = 10 }) => {
                 </StyledTableCell>
                 <StyledTableCell align="left">
                   <Typography variant="body2" textTransform="capitalize">
-                    {history.status}
+                    {history.status?.toLowerCase()}
                   </Typography>
                 </StyledTableCell>
                 <StyledTableCell align="left">

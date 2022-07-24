@@ -25,7 +25,7 @@ export const CompanyCreatePaymentPage = () => {
   const [selectedVaultAddress, setSelectVaultAddress] = useState("");
   const [amount, setAmount] = useState("");
   const [details, setDetails] = useState("");
-  const [selectedTokenSymbol, setSelectedTokenSymbol] = useState<ContractAddressKey>("usdt");
+  const [selectedTokenSymbol, setSelectedTokenSymbol] = useState<ContractAddressKey>("kiusd");
 
   const { contractAddress } = useConstant();
   const { account, provider } = useWeb3React();
@@ -195,10 +195,9 @@ export const CompanyCreatePaymentPage = () => {
                 }}
                 inputLabelProps={{ sx: { transform: "translate(14px, 12px)" } }}
               >
+                <MenuItem value="kiusd">KiUSD</MenuItem>
                 <MenuItem value="usdt">USDT</MenuItem>
                 <MenuItem value="usdc">USDC</MenuItem>
-                <MenuItem value="dai">DAI</MenuItem>
-                <MenuItem value="eth">ETH</MenuItem>
               </GeneralSelect>
             </Box>
           </Stack>

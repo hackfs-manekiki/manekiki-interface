@@ -20,11 +20,11 @@ export const ConnectWalletButton = () => {
       <Button
         variant="outlined"
         onClick={() => {
-          if (connector?.deactivate) {
-            void connector.deactivate();
-          } else {
-            void connector.resetState();
-          }
+          // if (connector?.deactivate) {
+          //   void connector.deactivate();
+          // } else {
+          //   void connector.resetState();
+          // }
         }}
         sx={{
           color: "border.main",

@@ -21,10 +21,10 @@ const menuList = [
     isTopLevel: false,
     pathname: "/company/[slug]/payment/create",
   },
-  {
-    label: "Submit Billing",
-    isTopLevel: false,
-  },
+  // {
+  //   label: "Submit Billing",
+  //   isTopLevel: false,
+  // },
   {
     label: "History",
     isTopLevel: true,

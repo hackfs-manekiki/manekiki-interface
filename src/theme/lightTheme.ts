@@ -192,6 +192,11 @@ export const getLightTheme = (): ThemeOptions => {
               marginRight: "6px",
             },
           },
+          text: {
+            ":hover": {
+              backgroundColor: "transparent",
+            },
+          },
         },
       },
       MuiTypography: {

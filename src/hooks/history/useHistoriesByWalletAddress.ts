@@ -9,7 +9,8 @@ export const fetchHistoriesByWalletAddress = async (
   if (!walletAddress) return [];
   try {
     const response = await axiosInstance.get<RequestHistory[]>(`/vault/request/${walletAddress}`);
-    return response.data.filter((history) => history.status !== "pending");
+    return response.data.filter((history) => history.status !== "PENDING");
+    // return response.data;
   } catch (e) {
     console.debug("fetchVaultsByWalletAddress:", e);
     return [];

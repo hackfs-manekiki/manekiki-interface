@@ -80,7 +80,7 @@ export const Navbar: FC<Props> = observer((props) => {
         type: "ERC20",
         options: {
           address: "0xf95f381faB58F70c435eC873b33DF1f7aE6BFE14",
-          symbol: "kiUSD",
+          symbol: "KiUSD",
           decimals: 6,
         },
       },
@@ -133,7 +133,7 @@ export const Navbar: FC<Props> = observer((props) => {
                     >
                       <Stack spacing={2} px={4} py={4} alignItems="center">
                         <Typography variant="h6" color="textPrimary">
-                          Add kiUSD to MetaMask?
+                          Add KiUSD to MetaMask?
                         </Typography>
                         <Button
                           onClick={handleAddKiUsd}
