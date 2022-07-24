@@ -77,7 +77,7 @@ export const CompanyCreatePaymentPage = () => {
         to: account,
         requestType: "0",
         value: utils.parseEther(amount),
-        budget: "1000000000", // ??
+        budget: "0", // ??
         data: "0x",
         name: name,
         detail: details,
@@ -98,7 +98,7 @@ export const CompanyCreatePaymentPage = () => {
         to: tokenAddress,
         requestType: "1",
         value: "0",
-        budget: "1000000000", // ??
+        budget: "0", // ??
         data: transferFunctionData,
         name: name,
         detail: details,
@@ -219,7 +219,7 @@ export const CompanyCreatePaymentPage = () => {
             placeholder="Explain more about your payment"
           />
         </Box>
-        <Box>
+        {/* <Box>
           <InputLabel sx={{ pl: 0.5, mb: 1 }}>
             <Typography color="textPrimary">
               <b>Attached bill/evidence</b>
@@ -262,7 +262,7 @@ export const CompanyCreatePaymentPage = () => {
               <Typography sx={{ mt: 1, color: "#9190D6" }}>attach evidence</Typography>
             </Button>
           )}
-        </Box>
+        </Box> */}
         <Box width="100%" maxWidth={1000} display="flex" justifyContent="space-between" my={5}>
           <Button
             variant="text"
