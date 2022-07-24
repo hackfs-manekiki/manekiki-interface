@@ -27,7 +27,9 @@ export const CompanyDashboardPage = () => {
             ? Array.from({ length: 3 }).map((_, i) => <DashboardVaultCardSkeleton key={i} />)
             : vaults
                 .sort((va, vb) => (va.name + va.address).localeCompare(vb.name + vb.address))
-                .map((vault, i) => <DashboardVaultCard key={i} vault={vault} />)}
+                .map((vault, i) => (
+                  <DashboardVaultCard key={vault.name + vault.address} vault={vault} />
+                ))}
           {/* <DashboardVaultCard />
           <DashboardVaultCard />
           <DashboardVaultCardSkeleton /> */}
