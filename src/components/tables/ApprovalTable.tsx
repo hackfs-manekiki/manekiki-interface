@@ -15,7 +15,7 @@ import dayjs from "dayjs";
 import { usePendingUserHistories } from "src/hooks/history/usePendingUserHistories";
 import { PrimaryGradientButton } from "../buttons/PrimaryGradientButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { useWeb3React } from "@web3-react/core";
 import { useUserVaults } from "src/hooks/vaults/useUserVaults";
 import { ethers } from "ethers";
@@ -67,6 +67,7 @@ export const ApprovalTable = () => {
 
   const [dialogData, setDialogData] = useState<RequestHistory>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isApproving, setIsApproving] = useState(false);
 
   const { data: vaults, loading: isVaultsLoading } = useUserVaults();
   const { provider, account } = useWeb3React();
@@ -95,9 +96,11 @@ export const ApprovalTable = () => {
     const signer = provider.getSigner();
     const vaultContract = new ethers.Contract(dialogData.vaultAddress, VaultABI, signer);
     const requestId = dialogData.requestId;
-    handleCloseDialog();
+    setIsApproving(true);
     const { hash } = await vaultContract.approveRequest(requestId);
     const receipt = await provider.waitForTransaction(hash);
+    handleCloseDialog();
+    setIsApproving(false);
   };
 
   const handleCloseDialog = () => {
@@ -413,11 +416,20 @@ export const ApprovalTable = () => {
                     <Typography sx={{ color: "#6F6FE8" }}>Reject</Typography>
                   </Button>
                   <PrimaryGradientButton
-                    sx={{ width: 120, height: 36 }}
+                    sx={{ minWidth: 120, height: 36 }}
                     onClick={handleApprove}
+                    startIcon={
+                      isApproving && (
+                        <Box>
+                          <FontAwesomeIcon icon={faSpinner} spin />
+                        </Box>
+                      )
+                    }
                     disabled={!canApprove}
                   >
-                    <Typography color="textPrimary">Approve</Typography>
+                    <Typography color="textPrimary">
+                      {isApproving ? "Approving" : "Approve"}
+                    </Typography>
                   </PrimaryGradientButton>
                 </Stack>
               ) : (

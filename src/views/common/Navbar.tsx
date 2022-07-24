@@ -1,5 +1,15 @@
 import styled from "@emotion/styled";
-import { Box, Button, Dialog, Stack, Typography, useScrollTrigger, useTheme } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Dialog,
+  Snackbar,
+  Stack,
+  Typography,
+  useScrollTrigger,
+  useTheme,
+} from "@mui/material";
 import Link from "next/link";
 import { ManekikiLogo } from "src/svgs";
 
@@ -18,6 +28,8 @@ import { MockTokenABI } from "src/abis";
 import { MetaMask } from "@web3-react/metamask";
 
 import type { FC } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled(Box, {
   shouldForwardProp: (props: string) => props !== "isScrollTriggered" && props !== "bgColor",
@@ -50,6 +62,7 @@ export const Navbar: FC<Props> = observer((props) => {
     : "#F8F8FF";
 
   const [addTokenModalOpen, setAddTokenModalOpen] = useState(false);
+  const [mintStatus, setMintStatus] = useState<number>();
   const [isMintingKiUsd, setIsMintingKiUsd] = useState(false);
 
   const handleMintKiUsd = async () => {
@@ -64,6 +77,7 @@ export const Navbar: FC<Props> = observer((props) => {
     try {
       const { hash } = await kiUsdContract.mint(account, ethers.utils.parseUnits("10000", 6));
       const receipt = await provider.waitForTransaction(hash);
+      setMintStatus(receipt.status);
     } catch {
       // pass
     }
@@ -114,11 +128,32 @@ export const Navbar: FC<Props> = observer((props) => {
             <Stack direction="row" spacing={3} alignItems="center">
               {chainId === 80001 && (
                 <>
-                  <PrimaryGradientButton onClick={handleMintKiUsd} disabled={isMintingKiUsd}>
+                  <PrimaryGradientButton
+                    onClick={handleMintKiUsd}
+                    disabled={isMintingKiUsd}
+                    startIcon={
+                      isMintingKiUsd && (
+                        <Box>
+                          <FontAwesomeIcon icon={faSpinner} spin />
+                        </Box>
+                      )
+                    }
+                  >
                     <Typography color="textPrimary">
                       {isMintingKiUsd ? "Minting..." : "Mint kiUSD"}
                     </Typography>
                   </PrimaryGradientButton>
+                  <Snackbar
+                    open={mintStatus !== undefined}
+                    autoHideDuration={500}
+                    onClose={() => setMintStatus(undefined)}
+                  >
+                    {mintStatus === 1 ? (
+                      <Alert severity="success">Minted 10,000 KiUSD</Alert>
+                    ) : (
+                      <Alert severity="error">Mint failed</Alert>
+                    )}
+                  </Snackbar>
                   {connector && connector instanceof MetaMask && (
                     <Dialog
                       open={addTokenModalOpen}

@@ -30,20 +30,20 @@ const menuList = [
     isTopLevel: true,
     pathname: "/company/[slug]/history",
   },
-  {
-    label: "Setting",
-    isTopLevel: true,
-  },
-  {
-    label: "Manage Vault",
-    isTopLevel: false,
-    pathname: "/company/[slug]/manage/vault",
-  },
-  {
-    label: "Manage Member",
-    isTopLevel: false,
-    pathname: "/company/[slug]/manage/member",
-  },
+  // {
+  //   label: "Setting",
+  //   isTopLevel: true,
+  // },
+  // {
+  //   label: "Manage Vault",
+  //   isTopLevel: false,
+  //   pathname: "/company/[slug]/manage/vault",
+  // },
+  // {
+  //   label: "Manage Member",
+  //   isTopLevel: false,
+  //   pathname: "/company/[slug]/manage/member",
+  // },
 ];
 
 type Props = {} & DrawerProps;

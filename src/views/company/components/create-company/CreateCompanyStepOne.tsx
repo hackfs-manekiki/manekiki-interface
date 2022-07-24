@@ -57,7 +57,16 @@ export const CreateCompanyStepOne: FC<Props> = ({ onKeyDown }) => {
         </Stack>
         <PrimaryGradientButton
           disabled={!createCompanyStore.companyName}
-          onClick={createCompanyStore.nextStep}
+          onClick={() => {
+            createCompanyStore.nextStep();
+            localStorage.setItem(
+              "companies",
+              JSON.stringify({
+                name: createCompanyStore.companyName,
+                slug: createCompanyStore.companySlug,
+              }),
+            );
+          }}
         >
           <Typography variant="button" color="textPrimary">
             Continue

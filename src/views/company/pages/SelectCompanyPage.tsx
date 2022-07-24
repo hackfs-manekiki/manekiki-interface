@@ -6,12 +6,25 @@ import { useMuiTheme } from "src/hooks/themes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useWeb3React } from "@web3-react/core";
+import { useMemo } from "react";
+import { isBrowser } from "src/utils/isBrowser";
 
-const companies = [{ name: "Manekiki", slug: "manekiki" }];
+// const companies = [];
 
 export const SelectCompanyPage: NextPage = () => {
   const theme = useMuiTheme();
   const { account } = useWeb3React();
+
+  const companies = useMemo(() => {
+    if (isBrowser) {
+      const raw = localStorage.getItem("companies");
+      try {
+        return JSON.parse(raw ?? "[]");
+      } catch {
+        return [];
+      }
+    }
+  }, []);
 
   // todo: query company from blockchain
 
