@@ -16,13 +16,11 @@ export const SelectCompanyPage: NextPage = () => {
   const { account } = useWeb3React();
 
   const companies: { name: string; slug: string }[] = useMemo(() => {
-    if (isBrowser) {
+    try {
       const raw = localStorage.getItem("companies");
-      try {
-        return JSON.parse(raw ?? "[]");
-      } catch {
-        return [];
-      }
+      return JSON.parse(raw ?? "[]");
+    } catch {
+      return [];
     }
   }, []);
 
