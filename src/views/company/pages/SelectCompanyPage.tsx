@@ -15,7 +15,7 @@ export const SelectCompanyPage: NextPage = () => {
   const theme = useMuiTheme();
   const { account } = useWeb3React();
 
-  const companies = useMemo(() => {
+  const companies: { name: string; slug: string }[] = useMemo(() => {
     if (isBrowser) {
       const raw = localStorage.getItem("companies");
       try {
