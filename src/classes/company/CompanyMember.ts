@@ -30,6 +30,8 @@ export class CompanyMember {
   };
 
   clone = () => {
-    return new CompanyMember(this.name, this.address, this.role);
+    const cloned = new CompanyMember(this.name, this.address, this.role);
+    cloned.id = this.id;
+    return cloned;
   };
 }
