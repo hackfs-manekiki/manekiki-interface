@@ -272,10 +272,7 @@ export const ApprovalTable = () => {
       </TableContainer>
       <Dialog
         open={isDialogOpen}
-        onClose={() => {
-          setIsDialogOpen(false);
-          setDialogData(null);
-        }}
+        onClose={handleCloseDialog}
         sx={{ ".MuiDialog-paper": { backgroundColor: "#F8F8FF", width: 600, borderRadius: 12 } }}
       >
         {dialogData && (
