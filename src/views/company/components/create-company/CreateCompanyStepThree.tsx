@@ -1,4 +1,4 @@
-import { faMinusCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faMinusCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Autocomplete, Box, Button, IconButton, Paper, Stack, Typography } from "@mui/material";
 import { useWeb3React } from "@web3-react/core";
@@ -9,6 +9,7 @@ import { createCompanyStore } from "src/stores/createCompanyStore";
 import { shortenAddress } from "src/utils/shortenAddress";
 
 import type { FC } from "react";
+import { PrimaryGradientButton } from "src/components/buttons/PrimaryGradientButton";
 
 type Props = {};
 export const CreateCompanyStepThree: FC<Props> = observer(() => {
@@ -213,6 +214,43 @@ export const CreateCompanyStepThree: FC<Props> = observer(() => {
           </Typography>
         </Stack>
       </Button>
+      <Box
+        width="100%"
+        maxWidth={1000}
+        display="flex"
+        justifyContent="space-between"
+        my={5}
+        mx="auto"
+      >
+        <Stack direction="row" spacing={2}>
+          <Button
+            variant="text"
+            startIcon={
+              <Box>
+                <FontAwesomeIcon icon={faChevronLeft} size="xs" />
+              </Box>
+            }
+            onClick={createCompanyStore.previousStep}
+          >
+            <Typography variant="button" color="primary">
+              Back
+            </Typography>
+          </Button>
+          <Button variant="text" onClick={createCompanyStore.reset}>
+            <Typography variant="button" color="primary">
+              Start Over
+            </Typography>
+          </Button>
+        </Stack>
+        <PrimaryGradientButton
+          disabled={!createCompanyStore.companyName}
+          onClick={createCompanyStore.nextStep}
+        >
+          <Typography variant="button" color="textPrimary">
+            Continue
+          </Typography>
+        </PrimaryGradientButton>
+      </Box>
     </Box>
   );
 });

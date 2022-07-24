@@ -4,8 +4,14 @@ import { createCompanyStore } from "src/stores/createCompanyStore";
 import { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinusCircle, faPlus, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faMinusCircle,
+  faPlus,
+  faPlusCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import type { FC } from "react";
+import { PrimaryGradientButton } from "src/components/buttons/PrimaryGradientButton";
 const suggestions = [
   "Suggestion",
   "Salary vault",
@@ -127,6 +133,43 @@ export const CreateCompanyStepTwo: FC<Props> = observer(() => {
           </IconButton>
         </Stack>
       )}
+      <Box
+        width="100%"
+        maxWidth={1000}
+        display="flex"
+        justifyContent="space-between"
+        my={5}
+        mx="auto"
+      >
+        <Stack direction="row" spacing={2}>
+          <Button
+            variant="text"
+            startIcon={
+              <Box>
+                <FontAwesomeIcon icon={faChevronLeft} size="xs" />
+              </Box>
+            }
+            onClick={createCompanyStore.previousStep}
+          >
+            <Typography variant="button" color="primary">
+              Back
+            </Typography>
+          </Button>
+          <Button variant="text" onClick={createCompanyStore.reset}>
+            <Typography variant="button" color="primary">
+              Start Over
+            </Typography>
+          </Button>
+        </Stack>
+        <PrimaryGradientButton
+          disabled={!createCompanyStore.companyName}
+          onClick={createCompanyStore.nextStep}
+        >
+          <Typography variant="button" color="textPrimary">
+            Continue
+          </Typography>
+        </PrimaryGradientButton>
+      </Box>
     </Box>
   );
 });

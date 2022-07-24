@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useRef, useEffect, useCallback } from "react";
 import type { Fetcher, Key, SWRConfiguration, SWRResponse } from "swr";
 import useSWR from "swr";

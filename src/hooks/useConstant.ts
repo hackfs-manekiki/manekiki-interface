@@ -1,7 +1,7 @@
 import { useWeb3React } from "@web3-react/core";
 import { useMemo } from "react";
 import { ContractAddresses } from "src/constants/contracts";
-import type { SupportedChainIds } from "src/constants/enums/chain-id.enum";
+import { SupportedChainIds } from "src/constants/enums/chain-id.enum";
 
 export const useConstant = () => {
   const context = useWeb3React();
@@ -9,7 +9,7 @@ export const useConstant = () => {
 
   return useMemo(
     () => ({
-      contractAddress: chainId ? ContractAddresses[chainId] : { usdt: "", usdc: "", dai: "" },
+      contractAddress: ContractAddresses[chainId ?? SupportedChainIds.POLYGON_MAINNET],
     }),
     [chainId],
   );

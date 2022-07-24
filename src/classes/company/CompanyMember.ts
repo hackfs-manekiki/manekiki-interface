@@ -28,4 +28,8 @@ export class CompanyMember {
   setBudgetUsd = (budget: number) => {
     this.budgetUsd = budget;
   };
+
+  clone = () => {
+    return new CompanyMember(this.name, this.address, this.role);
+  };
 }

@@ -19,8 +19,7 @@ import QRCode from "qrcode";
 import type { FC } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useConstant } from "src/hooks/useConstant";
-import type { ContractAddresses } from "src/constants/contracts";
-import type { SupportedChainIds } from "src/constants/enums/chain-id.enum";
+import type { ContractAddressKey } from "src/constants/contracts";
 import { ERC20ABI } from "src/abis";
 import { ethers } from "ethers";
 import type { Vault } from "src/interfaces/vault";
@@ -31,15 +30,14 @@ type Props = {
 export const VaultAddFundsCard: FC<Props> = ({ vault, ...props }) => {
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
   const [transferAmount, setTransferAmount] = useState<string>("");
-  const [selectedTokenSymbol, setSelectedTokenSymbol] =
-    useState<keyof typeof ContractAddresses[SupportedChainIds]>("usdt");
+  const [selectedTokenSymbol, setSelectedTokenSymbol] = useState<ContractAddressKey>("kiusd");
 
   const { account, provider } = useWeb3React();
   const { contractAddress } = useConstant();
 
   useEffect(() => {
     const generateQrCode = async () => {
-      const decimals = selectedTokenSymbol === "dai" ? 18 : 6;
+      const decimals = 6;
       const tokenAddr = contractAddress[selectedTokenSymbol];
       const recipient = vault.address;
       const amount = ethers.utils.parseUnits(transferAmount || "0", decimals);
@@ -57,7 +55,7 @@ export const VaultAddFundsCard: FC<Props> = ({ vault, ...props }) => {
   const handleTransferClick = async () => {
     if (!provider) return;
     const signer = provider.getSigner();
-    const decimals = selectedTokenSymbol === "dai" ? 18 : 6;
+    const decimals = 6;
     const tokenContract = new ethers.Contract(
       contractAddress[selectedTokenSymbol],
       ERC20ABI,
@@ -151,7 +149,7 @@ export const VaultAddFundsCard: FC<Props> = ({ vault, ...props }) => {
             >
               <MenuItem value="usdt">USDT</MenuItem>
               <MenuItem value="usdc">USDC</MenuItem>
-              <MenuItem value="dai">DAI</MenuItem>
+              <MenuItem value="kiusd">kiUSD</MenuItem>
             </GeneralSelect>
             <Button
               variant="contained"

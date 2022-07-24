@@ -1,9 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import vault from "pages/company/[slug]/manage/vault";
 import { ApprovalTable } from "src/components/tables/ApprovalTable";
 import { HistoryTable } from "src/components/tables/HistoryTable";
 import { useUserVaults } from "src/hooks/vaults/useUserVaults";
-import { useVaultsByWalletAddress } from "src/hooks/vaults/useVaultsByWalletAddress";
 import {
   DashboardVaultCard,
   DashboardVaultCardSkeleton,
@@ -11,12 +9,7 @@ import {
 
 export const CompanyDashboardPage = () => {
   // const { data: vaults, loading: isVaultLoading, error: isVaultError } = useUserVaults();
-  const {
-    data: vaults,
-    loading: isVaultLoading,
-    error: isVaultError,
-  } = useVaultsByWalletAddress("0x05DEA85BEca75F220fa830E1E7112D794335E46B");
-  console.log(`🚀 ~ vaults`, vaults);
+  const { data: vaults, loading: isVaultLoading, error: isVaultError } = useUserVaults();
 
   return (
     <Box
@@ -32,7 +25,9 @@ export const CompanyDashboardPage = () => {
         <Box display="flex" flexWrap="wrap" sx={{ mt: 3 }}>
           {isVaultLoading
             ? Array.from({ length: 3 }).map((_, i) => <DashboardVaultCardSkeleton key={i} />)
-            : vaults.map((vault, i) => <DashboardVaultCard key={i} vault={vault} />)}
+            : vaults
+                .sort((va, vb) => va.name.localeCompare(vb.name))
+                .map((vault, i) => <DashboardVaultCard key={i} vault={vault} />)}
           {/* <DashboardVaultCard />
           <DashboardVaultCard />
           <DashboardVaultCardSkeleton /> */}

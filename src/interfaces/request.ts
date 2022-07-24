@@ -1,6 +1,7 @@
-export interface Request {
+export interface RequestHistory {
   name: string;
   detail: string;
+  vaultName: string;
   attachment: string;
   recipientAddress: string;
   recipientName: string;

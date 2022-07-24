@@ -52,6 +52,7 @@
     "axios": "^0.27.2",
     "class-transformer": "^0.5.1",
     "color": "^4.2.3",
+    "dayjs": "^1.11.4",
     "ethers": "^5.6.9",
     "ethers-multicall": "^0.2.3",
     "lodash.clamp": "^4.0.3",

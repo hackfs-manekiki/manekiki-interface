@@ -38,6 +38,10 @@ class CreateCompanyStore {
   vaults: CompanyVault[] = [];
   members: CompanyMember[] = [];
 
+  get companySlug() {
+    return this.companyName.toLowerCase().replace(/\s/g, "-");
+  }
+
   setCompanyName = (companyName: string) => {
     this.companyName = companyName;
   };
@@ -51,15 +55,15 @@ class CreateCompanyStore {
   };
 
   setOwnerName = (name: string) => {
-    this.owner.name = name;
+    this.owner = new CompanyMember(name, this.owner.address, this.owner.role);
   };
 
   setOwnerAddress = (address: string) => {
-    this.owner.address = address;
+    this.owner = new CompanyMember(this.owner.name, address, this.owner.role);
   };
 
   setOwnerRole = (role: string) => {
-    this.owner.role = role;
+    this.owner = new CompanyMember(this.owner.name, this.owner.address, role);
   };
 
   addMember = (name?: string, role?: string) => {
@@ -113,7 +117,7 @@ class CreateCompanyStore {
 
   // vault approvers
   addApproverToVault = (vault: CompanyVault, approver: CompanyMember = new CompanyMember()) => {
-    vault.addApprover(approver);
+    vault.addApprover(approver.clone());
     this.vaults = [...this.vaults];
   };
 

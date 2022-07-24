@@ -10,6 +10,9 @@ import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import { SecondaryButton } from "../buttons/SecondaryButton";
+import numeral from "numeral";
+import dayjs from "dayjs";
+import { usePendingUserHistories } from "src/hooks/history/usePendingUserHistories";
 
 const mockArray = () => {
   const arr = [];
@@ -53,7 +56,6 @@ export const ApprovalTable = () => {
   const data = mockArray();
   const [page, setPage] = useState(1);
   const pageSize = 10;
-  const totalPage = (data.length + pageSize - 1) / pageSize;
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -71,6 +73,8 @@ export const ApprovalTable = () => {
   };
 
   // TODO: query real data
+  const { data: histories, loading: isHistoriesLoading } = usePendingUserHistories();
+  const totalPage = isHistoriesLoading ? 1 : (histories.length + pageSize - 1) / pageSize;
 
   return (
     <TableContainer sx={{ boxShadow: "none", backgroundColor: "transparent" }} component={Paper}>
@@ -105,56 +109,59 @@ export const ApprovalTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.slice(page - 1 * pageSize, page * pageSize + pageSize).map((row, index) => (
-            <TableRow
-              key={index}
-              sx={{
-                borderRadius: 6,
-              }}
-            >
-              <StyledTableCell
+          {histories
+            .slice(page - 1 * pageSize, page * pageSize + pageSize)
+            .map((history, index) => (
+              <TableRow
+                key={index}
                 sx={{
-                  borderTopLeftRadius: "10px",
-                  borderBottomLeftRadius: "10px",
+                  borderRadius: 6,
                 }}
-                component="th"
-                scope="row"
               >
-                {row.detail}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                <Typography
-                  variant="subtitle1"
-                  sx={{ color: "#40A331" }}
-                >{`${row.price} ${row.priceDenom}`}</Typography>
-              </StyledTableCell>
-              <StyledTableCell align="left">{row.requester}</StyledTableCell>
-              <StyledTableCell align="left">{row.dateTime}</StyledTableCell>
-              <StyledTableCell
-                sx={{
-                  borderTopRightRadius: "10px",
-                  borderBottomRightRadius: "10px",
-                }}
-                align="center"
-              >
-                {row.status}
-              </StyledTableCell>
-              <TableCell sx={{ py: 0, border: "none", background: "transparent" }}>
-                <SecondaryButton
+                <StyledTableCell
                   sx={{
-                    width: 120,
-                    height: 36,
-                    px: 0,
-                    my: "auto",
+                    borderTopLeftRadius: "10px",
+                    borderBottomLeftRadius: "10px",
                   }}
+                  component="th"
+                  scope="row"
                 >
-                  <Typography variant="body2" color="textPrimary">
-                    <b>View Details</b>
+                  {history.name}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  <Typography variant="body2" sx={{ color: "#40A331" }}>
+                    {`${numeral(history.amount).format("0,0.[000]")} ${history.denom}`}
                   </Typography>
-                </SecondaryButton>
-              </TableCell>
-            </TableRow>
-          ))}
+                </StyledTableCell>
+                <StyledTableCell align="left">{history.requesterName}</StyledTableCell>
+                <StyledTableCell align="left">
+                  {dayjs(history.requestTimestamp).format("DD/MM/YYYY, HH:mm:ss")}
+                </StyledTableCell>
+                <StyledTableCell
+                  sx={{
+                    borderTopRightRadius: "10px",
+                    borderBottomRightRadius: "10px",
+                  }}
+                  align="center"
+                >
+                  {history.status}
+                </StyledTableCell>
+                <TableCell sx={{ py: 0, border: "none", background: "transparent" }}>
+                  <SecondaryButton
+                    sx={{
+                      width: 120,
+                      height: 36,
+                      px: 0,
+                      my: "auto",
+                    }}
+                  >
+                    <Typography variant="body2" color="textPrimary">
+                      <b>View Details</b>
+                    </Typography>
+                  </SecondaryButton>
+                </TableCell>
+              </TableRow>
+            ))}
           <TableRow>
             <TableCell colSpan={5} sx={{ p: 0, border: "none" }}>
               <Pagination

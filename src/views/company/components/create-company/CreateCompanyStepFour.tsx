@@ -16,15 +16,21 @@ import { FactoryABI } from "src/abis";
 import { BigNumber, ethers } from "ethers";
 import type { TransactionReceipt } from "@ethersproject/providers";
 import { PrimaryGradientButton } from "src/components/buttons/PrimaryGradientButton";
-import { FACTORY_ADDRESS } from "src/constants/factory";
+import { useConstant } from "src/hooks/useConstant";
 
 type Props = {};
 export const CreateCompanyStepFour: FC<Props> = observer(() => {
   const { account, connector, provider } = useWeb3React();
 
+  const { contractAddress } = useConstant();
+
   const handleCreateVaults = async () => {
     if (!provider) return;
-    const vaultFactory = new ethers.Contract(FACTORY_ADDRESS, FactoryABI, provider.getSigner());
+    const vaultFactory = new ethers.Contract(
+      contractAddress.factory,
+      FactoryABI,
+      provider.getSigner(),
+    );
 
     const params = createCompanyStore.vaults.map((vault) => {
       return {
@@ -371,20 +377,34 @@ export const CreateCompanyStepFour: FC<Props> = observer(() => {
             </Box>
           );
         })}
-        <Box width="100%" maxWidth={1000} display="flex" justifyContent="space-between" my={5}>
-          <Button
-            variant="text"
-            startIcon={
-              <Box>
-                <FontAwesomeIcon icon={faChevronLeft} size="xs" />
-              </Box>
-            }
-            onClick={createCompanyStore.previousStep}
-          >
-            <Typography variant="button" color="primary">
-              Back
-            </Typography>
-          </Button>
+        <Box
+          width="100%"
+          maxWidth={1000}
+          display="flex"
+          justifyContent="space-between"
+          my={5}
+          mx="auto"
+        >
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="text"
+              startIcon={
+                <Box>
+                  <FontAwesomeIcon icon={faChevronLeft} size="xs" />
+                </Box>
+              }
+              onClick={createCompanyStore.previousStep}
+            >
+              <Typography variant="button" color="primary">
+                Back
+              </Typography>
+            </Button>
+            <Button variant="text" onClick={createCompanyStore.reset}>
+              <Typography variant="button" color="primary">
+                Start Over
+              </Typography>
+            </Button>
+          </Stack>
           <PrimaryGradientButton
             // disabled={continueButtonDisabled}
             onClick={handleCreateVaults}

@@ -13,7 +13,7 @@ export const useVaultBalances = (vaultAddress: string) => {
   const { usd: nativeTokenPrice } = useNativeTokenPrice();
 
   const [ethBalance, setEthBalance] = useState(0);
-  const [daiBalance, setDaiBalance] = useState(0);
+  const [kiUsdBalance, setKiUsdBalance] = useState(0);
   const [usdtBalance, setUsdtBalance] = useState(0);
   const [usdcBalance, setUsdcBalance] = useState(0);
 
@@ -21,23 +21,24 @@ export const useVaultBalances = (vaultAddress: string) => {
     if (provider && vaultAddress) {
       const fetchBalances = async () => {
         const multicall = new MulticallProvider(provider, chainId);
-        const daiContract = new Contract(contractAddress.dai, ERC20ABI);
+        // const daiContract = new Contract(contractAddress.dai, ERC20ABI);
+        const kiUsdContract = new Contract(contractAddress.kiusd, ERC20ABI);
         const usdtContract = new Contract(contractAddress.usdt, ERC20ABI);
         const usdcContract = new Contract(contractAddress.usdc, ERC20ABI);
 
-        const [ethBalance, daiBalance, usdtBalance, usdcBalance] = await multicall.all([
+        const [ethBalance, kiUsdBalance, usdtBalance, usdcBalance] = await multicall.all([
           multicall.getEthBalance(vaultAddress),
-          daiContract.balanceOf(vaultAddress),
+          kiUsdContract.balanceOf(vaultAddress),
           usdtContract.balanceOf(vaultAddress),
           usdcContract.balanceOf(vaultAddress),
         ]);
 
         const formattedEther = +utils.formatEther(ethBalance);
-        const formattedDai = +utils.formatUnits(daiBalance, 18);
+        const formattedKiUsd = +utils.formatUnits(kiUsdBalance, 6);
         const formattedUsdt = +utils.formatUnits(usdtBalance, 6);
         const formattedUsdc = +utils.formatUnits(usdcBalance, 6);
         setEthBalance(formattedEther);
-        setDaiBalance(formattedDai);
+        setKiUsdBalance(formattedKiUsd);
         setUsdtBalance(formattedUsdt);
         setUsdcBalance(formattedUsdc);
       };
@@ -49,9 +50,9 @@ export const useVaultBalances = (vaultAddress: string) => {
   return {
     ethBalance,
     ethBalanceUsd: ethBalance * nativeTokenPrice,
-    daiBalance,
+    kiUsdBalance,
     usdcBalance,
     usdtBalance,
-    totalBalanceUsd: ethBalance * nativeTokenPrice + daiBalance + usdcBalance + usdtBalance,
+    totalBalanceUsd: ethBalance * nativeTokenPrice + kiUsdBalance + usdcBalance + usdtBalance,
   };
 };

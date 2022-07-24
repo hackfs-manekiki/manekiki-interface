@@ -1,6 +1,6 @@
-import { faChevronLeft, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, IconButton, InputLabel, MenuItem, Stack, Typography } from "@mui/material";
+import { Box, Button, InputLabel, MenuItem, Stack, Typography } from "@mui/material";
 import { useWeb3React } from "@web3-react/core";
 import { Contract, utils } from "ethers";
 import { useEffect, useId, useState } from "react";
@@ -9,11 +9,10 @@ import { PrimaryGradientButton } from "src/components/buttons/PrimaryGradientBut
 import { NumberFormatCurrency } from "src/components/inputs/NumberFormatCurrency";
 import { WhiteBackgroundInput } from "src/components/inputs/WhiteBackgroundInput";
 import { GeneralSelect } from "src/components/selects/GeneralSelect";
-import type { ContractAddresses } from "src/constants/contracts";
+import type { ContractAddresses, ContractAddressKey } from "src/constants/contracts";
 import type { SupportedChainIds } from "src/constants/enums/chain-id.enum";
 import { useConstant } from "src/hooks/useConstant";
 import { useUserVaults } from "src/hooks/vaults/useUserVaults";
-import { ImageIcon } from "src/svgs";
 
 export const CompanyCreatePaymentPage = () => {
   const paymentNameId = useId();
@@ -26,9 +25,7 @@ export const CompanyCreatePaymentPage = () => {
   const [selectedVaultAddress, setSelectVaultAddress] = useState("");
   const [amount, setAmount] = useState("");
   const [details, setDetails] = useState("");
-  const [selectedTokenSymbol, setSelectedTokenSymbol] = useState<
-    keyof typeof ContractAddresses[SupportedChainIds] | "eth"
-  >("usdt");
+  const [selectedTokenSymbol, setSelectedTokenSymbol] = useState<ContractAddressKey>("usdt");
 
   const { contractAddress } = useConstant();
   const { account, provider } = useWeb3React();
@@ -71,42 +68,43 @@ export const CompanyCreatePaymentPage = () => {
     if (!vault || !provider) return;
     const signer = provider.getSigner();
     const vaultContract = new Contract(vault.address, VaultABI, signer);
-    if (selectedTokenSymbol === "eth") {
-      const requestEthParams = {
-        requester: account,
-        to: account,
-        requestType: "0",
-        value: utils.parseEther(amount),
-        budget: "0", // ??
-        data: "0x",
-        name: name,
-        detail: details,
-        attachments: "ipfs://null",
-      };
-      const { hash } = await vaultContract.requestApproval(requestEthParams);
-      const receipt = await provider.waitForTransaction(hash);
-    } else {
-      const decimals = selectedTokenSymbol === "dai" ? 18 : 6;
-      const tokenAddress = contractAddress[selectedTokenSymbol];
-      const tokenInterface = new utils.Interface(ERC20ABI);
-      const transferFunctionData = tokenInterface.encodeFunctionData("transfer", [
-        account,
-        utils.parseUnits(amount, decimals),
-      ]);
-      const requestTokenParams = {
-        requester: account,
-        to: tokenAddress,
-        requestType: "1",
-        value: "0",
-        budget: "0", // ??
-        data: transferFunctionData,
-        name: name,
-        detail: details,
-        attachments: "ipfs://null",
-      };
-      const { hash } = await vaultContract.requestApproval(requestTokenParams);
-      const receipt = await provider.waitForTransaction(hash);
-    }
+    // if (selectedTokenSymbol === "eth") {
+    //   const requestEthParams = {
+    //     requester: account,
+    //     to: account,
+    //     requestType: "0",
+    //     value: utils.parseEther(amount),
+    //     budget: "0", // ??
+    //     data: "0x",
+    //     name: name,
+    //     detail: details,
+    //     attachments: "ipfs://null",
+    //   };
+    //   const { hash } = await vaultContract.requestApproval(requestEthParams);
+    //   const receipt = await provider.waitForTransaction(hash);
+    // } else {
+    // const decimals = selectedTokenSymbol === "dai" ? 18 : 6;
+    const decimals = 6;
+    const tokenAddress = contractAddress[selectedTokenSymbol];
+    const tokenInterface = new utils.Interface(ERC20ABI);
+    const transferFunctionData = tokenInterface.encodeFunctionData("transfer", [
+      account,
+      utils.parseUnits(amount, decimals),
+    ]);
+    const requestTokenParams = {
+      requester: account,
+      to: tokenAddress,
+      requestType: "1",
+      value: "0",
+      budget: "0", // ??
+      data: transferFunctionData,
+      name: name,
+      detail: details,
+      attachments: "ipfs://null",
+    };
+    const { hash } = await vaultContract.requestApproval(requestTokenParams);
+    const receipt = await provider.waitForTransaction(hash);
+    // }
   };
 
   return (

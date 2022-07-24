@@ -13,6 +13,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faExternalLink } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useUserHistories } from "src/hooks/history/useUserHistories";
+import numeral from "numeral";
+import dayjs from "dayjs";
+import { shortenAddress } from "src/utils/shortenAddress";
 
 const mockData: ApprovalHistory = {
   from: "Tech",
@@ -42,7 +46,7 @@ type ApprovalHistory = {
   approver: string;
 };
 
-const headers = ["From", "To", "Detail", "Price", "Requester", "Date/Time", "Status", "Approver"];
+const headers = ["Vault", "To", "Detail", "Price", "Requester", "Date/Time", "Status", "Approver"];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   borderBottom: "0",
@@ -67,6 +71,11 @@ export const HistoryTable = ({ pageSize = 10 }) => {
   };
 
   // TODO: query real data
+  const {
+    data: histories,
+    loading: isHistoriesLoading,
+    error: isHistoriesError,
+  } = useUserHistories();
 
   return (
     <Box>
@@ -122,9 +131,9 @@ export const HistoryTable = ({ pageSize = 10 }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.slice((page - 1) * pageSize, page * pageSize).map((row) => (
+            {histories.slice((page - 1) * pageSize, page * pageSize).map((history) => (
               <TableRow
-                key={row.detail}
+                key={history.detail}
                 sx={{
                   borderRadius: 6,
                 }}
@@ -137,15 +146,36 @@ export const HistoryTable = ({ pageSize = 10 }) => {
                   component="th"
                   scope="from"
                 >
-                  {row.from}
+                  {history.vaultName ?? "??"}
                 </StyledTableCell>
-                <StyledTableCell align="left">{row.to}</StyledTableCell>
-                <StyledTableCell align="left">{row.detail}</StyledTableCell>
-                <StyledTableCell align="left">{`${row.price} ${row.priceDenom}`}</StyledTableCell>
-                <StyledTableCell align="left">{row.requester}</StyledTableCell>
-                <StyledTableCell align="left">{row.dateTime}</StyledTableCell>
-                <StyledTableCell align="left">{row.status}</StyledTableCell>
-                <StyledTableCell align="left">{row.approver}</StyledTableCell>
+                <StyledTableCell align="left">
+                  <Typography variant="body2">{history.recipientName}</Typography>
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  <Typography variant="body2">{history.detail}</Typography>
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  <Typography variant="body2" sx={{ color: "#40A331" }}>
+                    {`${numeral(history.amount).format("0,0.[000]")} ${history.denom}`}
+                  </Typography>
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  <Typography variant="body2">{history.requesterName}</Typography>
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  <Typography variant="body2"></Typography>
+                  {dayjs(history.approveTimestamp).format("DD/MM/YYYY, HH:mm:ss")}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  <Typography variant="body2" textTransform="capitalize">
+                    {history.status}
+                  </Typography>
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  <Typography variant="body2">
+                    {history.approverName || shortenAddress(history.approverAddress, 5)}
+                  </Typography>
+                </StyledTableCell>
                 <StyledTableCell
                   align="center"
                   sx={{
