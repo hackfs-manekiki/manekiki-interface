@@ -129,7 +129,7 @@ class CreateCompanyStore {
       const fromIndex = vault.approvers.findIndex((approver) => approver.id === fromId);
       const toApprover = this.members.find((member) => member.id === toId);
       if (fromIndex !== -1 && toApprover) {
-        vault.approvers[fromIndex] = toApprover;
+        vault.approvers[fromIndex] = toApprover.clone();
         vault.removeEmployeeById(toId);
       }
     }
