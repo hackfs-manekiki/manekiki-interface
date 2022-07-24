@@ -17,18 +17,16 @@ import { shortenAddress } from "src/utils/shortenAddress";
 import QRCode from "qrcode";
 
 import type { FC } from "react";
-import type { CompanyVault } from "src/classes/company/CompanyVault";
 import { useWeb3React } from "@web3-react/core";
 import { useConstant } from "src/hooks/useConstant";
 import type { ContractAddresses } from "src/constants/contracts";
 import type { SupportedChainIds } from "src/constants/enums/chain-id.enum";
 import { ERC20ABI } from "src/abis";
 import { ethers } from "ethers";
-
-const vaultAddress = "0xD2a0Ce7B617Bc6268B2D32707a5bB17f4Ed8FD21"; // Anvil PK 1
+import type { Vault } from "src/interfaces/vault";
 
 type Props = {
-  vault: CompanyVault;
+  vault: Vault;
 };
 export const VaultAddFundsCard: FC<Props> = ({ vault, ...props }) => {
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
@@ -43,8 +41,8 @@ export const VaultAddFundsCard: FC<Props> = ({ vault, ...props }) => {
     const generateQrCode = async () => {
       const decimals = selectedTokenSymbol === "dai" ? 18 : 6;
       const tokenAddr = contractAddress[selectedTokenSymbol];
-      const recipient = vaultAddress;
-      const amount = ethers.utils.parseUnits(transferAmount, decimals);
+      const recipient = vault.address;
+      const amount = ethers.utils.parseUnits(transferAmount || "0", decimals);
       const text = `ethereum:${tokenAddr}/transfer?address=${recipient}&uint256=${amount}`;
       const qrCodeDataUrl = await QRCode.toDataURL(text, {
         margin: 3,
@@ -54,7 +52,7 @@ export const VaultAddFundsCard: FC<Props> = ({ vault, ...props }) => {
       setQrCodeDataUrl(qrCodeDataUrl);
     };
     generateQrCode();
-  }, [transferAmount, selectedTokenSymbol, contractAddress]);
+  }, [transferAmount, selectedTokenSymbol, contractAddress, vault.address]);
 
   const handleTransferClick = async () => {
     if (!provider) return;
@@ -66,7 +64,7 @@ export const VaultAddFundsCard: FC<Props> = ({ vault, ...props }) => {
       signer,
     );
     const { hash } = await tokenContract.transfer(
-      vaultAddress,
+      vault.address,
       ethers.utils.parseUnits(transferAmount, decimals),
     );
     const receipt = await provider.waitForTransaction(hash);
@@ -116,7 +114,7 @@ export const VaultAddFundsCard: FC<Props> = ({ vault, ...props }) => {
             }}
           >
             <Typography variant="body2" color="inherit">
-              <b>{shortenAddress(vaultAddress)}</b>
+              <b>{shortenAddress(vault.address)}</b>
             </Typography>
             <IconButton color="inherit" disableRipple>
               <CopyIcon />

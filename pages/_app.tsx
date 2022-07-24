@@ -4,6 +4,7 @@ import { StylesProvider } from "@mui/styles";
 import { AppThemeProvider } from "src/providers";
 import { ThemeProvider as NextThemeProvider } from "next-themes";
 import { Web3ReactProvider } from "@web3-react/core";
+import { SWRConfig } from "swr";
 
 import { Layout } from "src/views/common/Layout";
 import { GlobalStyles } from "src/styles/GlobalStyles";
@@ -43,22 +44,30 @@ const CustomApp: FC<CustomAppProps> = (props) => {
         connectors={connectors}
         key={connectors.map(([connector]) => getConnectorName(connector)).join("__")}
       >
-        <StylesProvider injectFirst>
-          <NextThemeProvider
-            forcedTheme="light"
-            defaultTheme="light"
-            themes={["light", "dark"]}
-            enableSystem={true}
-            enableColorScheme={false}
-            attribute="class"
-          >
-            <AppThemeProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </AppThemeProvider>
-          </NextThemeProvider>
-        </StylesProvider>
+        <SWRConfig
+          value={{
+            shouldRetryOnError: true,
+            errorRetryCount: 2,
+            errorRetryInterval: 2000,
+          }}
+        >
+          <StylesProvider injectFirst>
+            <NextThemeProvider
+              forcedTheme="light"
+              defaultTheme="light"
+              themes={["light", "dark"]}
+              enableSystem={true}
+              enableColorScheme={false}
+              attribute="class"
+            >
+              <AppThemeProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </AppThemeProvider>
+            </NextThemeProvider>
+          </StylesProvider>
+        </SWRConfig>
       </Web3ReactProvider>
     </CacheProvider>
   );

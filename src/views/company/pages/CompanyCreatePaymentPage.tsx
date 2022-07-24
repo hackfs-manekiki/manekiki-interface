@@ -1,10 +1,18 @@
 import { faChevronLeft, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Button, IconButton, InputLabel, Stack, Typography } from "@mui/material";
+import { Box, Button, IconButton, InputLabel, MenuItem, Stack, Typography } from "@mui/material";
+import { useWeb3React } from "@web3-react/core";
+import { Contract, utils } from "ethers";
 import { useEffect, useId, useState } from "react";
+import { ERC20ABI, VaultABI } from "src/abis";
 import { PrimaryGradientButton } from "src/components/buttons/PrimaryGradientButton";
+import { NumberFormatCurrency } from "src/components/inputs/NumberFormatCurrency";
 import { WhiteBackgroundInput } from "src/components/inputs/WhiteBackgroundInput";
 import { GeneralSelect } from "src/components/selects/GeneralSelect";
+import type { ContractAddresses } from "src/constants/contracts";
+import type { SupportedChainIds } from "src/constants/enums/chain-id.enum";
+import { useConstant } from "src/hooks/useConstant";
+import { useUserVaults } from "src/hooks/vaults/useUserVaults";
 import { ImageIcon } from "src/svgs";
 
 export const CompanyCreatePaymentPage = () => {
@@ -13,6 +21,18 @@ export const CompanyCreatePaymentPage = () => {
   const detailsId = useId();
   const [imageBlobUrl, setImageBlobUrl] = useState("");
   const [imageFile, setImageFile] = useState<File>();
+
+  const [name, setName] = useState("");
+  const [selectedVaultAddress, setSelectVaultAddress] = useState("");
+  const [amount, setAmount] = useState("");
+  const [details, setDetails] = useState("");
+  const [selectedTokenSymbol, setSelectedTokenSymbol] = useState<
+    keyof typeof ContractAddresses[SupportedChainIds] | "eth"
+  >("usdt");
+
+  const { contractAddress } = useConstant();
+  const { account, provider } = useWeb3React();
+  const { data: vaults, loading: isVaultsLoading, error: isVaultsError } = useUserVaults();
 
   useEffect(() => {
     if (!imageFile) {
@@ -31,6 +51,64 @@ export const CompanyCreatePaymentPage = () => {
     process();
   }, [imageFile]);
 
+  const validateInputs = () => {
+    if (!name) {
+      return false;
+    }
+    if (!selectedVaultAddress) {
+      return false;
+    }
+    if (!amount) {
+      return false;
+    }
+    return true;
+  };
+
+  const isContinueButtonDisabled = !validateInputs();
+
+  const handleSubmit = async () => {
+    const vault = vaults.find((v) => v.address === selectedVaultAddress);
+    if (!vault || !provider) return;
+    const signer = provider.getSigner();
+    const vaultContract = new Contract(vault.address, VaultABI, signer);
+    if (selectedTokenSymbol === "eth") {
+      const requestEthParams = {
+        requester: account,
+        to: account,
+        requestType: "0",
+        value: utils.parseEther(amount),
+        budget: "1000000000", // ??
+        data: "0x",
+        name: name,
+        detail: details,
+        attachments: "ipfs://null",
+      };
+      const { hash } = await vaultContract.requestApproval(requestEthParams);
+      const receipt = await provider.waitForTransaction(hash);
+    } else {
+      const decimals = selectedTokenSymbol === "dai" ? 18 : 6;
+      const tokenAddress = contractAddress[selectedTokenSymbol];
+      const tokenInterface = new utils.Interface(ERC20ABI);
+      const transferFunctionData = tokenInterface.encodeFunctionData("transfer", [
+        account,
+        utils.parseUnits(amount, decimals),
+      ]);
+      const requestTokenParams = {
+        requester: account,
+        to: tokenAddress,
+        requestType: "1",
+        value: "0",
+        budget: "1000000000", // ??
+        data: transferFunctionData,
+        name: name,
+        detail: details,
+        attachments: "ipfs://null",
+      };
+      const { hash } = await vaultContract.requestApproval(requestTokenParams);
+      const receipt = await provider.waitForTransaction(hash);
+    }
+  };
+
   return (
     <Box px={4} pt={2}>
       <Typography variant="h3">Create Payment</Typography>
@@ -46,6 +124,8 @@ export const CompanyCreatePaymentPage = () => {
             id={paymentNameId}
             variant="outlined"
             placeholder="What is the money for?"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </Box>
         <Box>
@@ -56,12 +136,28 @@ export const CompanyCreatePaymentPage = () => {
           </InputLabel>
           <GeneralSelect
             label="Select vault to request from"
+            value={selectedVaultAddress}
+            onChange={(e) => setSelectVaultAddress(e.target.value as string)}
             sx={{
               width: 600,
               "& .MuiOutlinedInput-input": { py: 1.5 },
             }}
             inputLabelProps={{ sx: { transform: "translate(14px, 12px)" } }}
-          ></GeneralSelect>
+          >
+            {vaults?.length > 0 ? (
+              vaults.map((vault) => {
+                return (
+                  <MenuItem key={vault.address} value={vault.address}>
+                    {vault.name}
+                  </MenuItem>
+                );
+              })
+            ) : (
+              <MenuItem disabled>
+                <i>- No vaults found -</i>
+              </MenuItem>
+            )}
+          </GeneralSelect>
         </Box>
         <Box>
           <Stack direction="row" spacing={2}>
@@ -71,7 +167,16 @@ export const CompanyCreatePaymentPage = () => {
                   <b>Amount*</b>
                 </Typography>
               </InputLabel>
-              <WhiteBackgroundInput id={amountId} placeholder="Fill amount" sx={{ width: 340 }} />
+              <WhiteBackgroundInput
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                id={amountId}
+                placeholder="Fill amount"
+                sx={{ width: 340 }}
+                InputProps={{
+                  inputComponent: NumberFormatCurrency as any,
+                }}
+              />
             </Box>
             <Box>
               <InputLabel sx={{ pl: 0.5, mb: 1 }}>
@@ -80,12 +185,23 @@ export const CompanyCreatePaymentPage = () => {
                 </Typography>
               </InputLabel>
               <GeneralSelect
+                value={selectedTokenSymbol}
+                onChange={(e) =>
+                  setSelectedTokenSymbol(
+                    e.target.value as keyof typeof ContractAddresses[SupportedChainIds],
+                  )
+                }
                 sx={{
                   width: 240,
                   "& .MuiOutlinedInput-input": { py: 1.5 },
                 }}
                 inputLabelProps={{ sx: { transform: "translate(14px, 12px)" } }}
-              ></GeneralSelect>
+              >
+                <MenuItem value="usdt">USDT</MenuItem>
+                <MenuItem value="usdc">USDC</MenuItem>
+                <MenuItem value="dai">DAI</MenuItem>
+                <MenuItem value="eth">ETH</MenuItem>
+              </GeneralSelect>
             </Box>
           </Stack>
         </Box>
@@ -97,6 +213,8 @@ export const CompanyCreatePaymentPage = () => {
           </InputLabel>
           <WhiteBackgroundInput
             id={detailsId}
+            value={details}
+            onChange={(e) => setDetails(e.target.value)}
             multiline
             placeholder="Explain more about your payment"
           />
@@ -159,7 +277,11 @@ export const CompanyCreatePaymentPage = () => {
               Back
             </Typography>
           </Button>
-          <PrimaryGradientButton sx={{ height: 40 }}>
+          <PrimaryGradientButton
+            sx={{ height: 40 }}
+            onClick={handleSubmit}
+            disabled={isContinueButtonDisabled}
+          >
             <Typography variant="button" color="textPrimary">
               Continue
             </Typography>

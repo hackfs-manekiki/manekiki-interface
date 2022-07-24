@@ -6,7 +6,10 @@ export const urlConstants = createConstant({
     rpcUrl: "https://mainnet.infura.io/v3/",
   },
   [SupportedChainIds.POLYGON_MAINNET]: {
-    rpcUrl: "https://mainnet.polygon.link/v3/",
+    rpcUrl: "https://polygonapi.terminet.io/rpc",
+  },
+  [SupportedChainIds.POLYGON_MUMBAI_TESTNET]: {
+    rpcUrl: "https://polygontestapi.terminet.io/rpc",
   },
   [SupportedChainIds.LOCAL]: {
     rpcUrl: "http://localhost:8545/",

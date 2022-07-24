@@ -1,6 +1,7 @@
 export enum SupportedChainIds {
   ETHEREUM_MAINNET = 1,
   POLYGON_MAINNET = 137,
+  POLYGON_MUMBAI_TESTNET = 80001,
   LOCAL = 31337,
   // BINANCE_SMART_CHAIN = 56,
 }
