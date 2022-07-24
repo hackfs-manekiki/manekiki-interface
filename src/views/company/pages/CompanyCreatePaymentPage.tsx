@@ -33,6 +33,8 @@ export const CompanyCreatePaymentPage = () => {
   const { account, provider } = useWeb3React();
   const { data: vaults, loading: isVaultsLoading, error: isVaultsError } = useUserVaults();
 
+  const amountInputId = useId();
+
   useEffect(() => {
     if (!imageFile) {
       setImageBlobUrl("");
@@ -179,6 +181,7 @@ export const CompanyCreatePaymentPage = () => {
                 placeholder="Fill amount"
                 sx={{ width: 340 }}
                 InputProps={{
+                  id: amountInputId,
                   inputComponent: NumberFormatCurrency as any,
                 }}
               />
