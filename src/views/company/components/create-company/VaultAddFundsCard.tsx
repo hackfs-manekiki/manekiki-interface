@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import {
   Alert,
   Box,
@@ -39,6 +39,7 @@ export const VaultAddFundsCard: FC<Props> = ({ vault, ...props }) => {
 
   const { account, provider } = useWeb3React();
   const { contractAddress } = useConstant();
+  const amountInputId = useId();
 
   useEffect(() => {
     const generateQrCode = async () => {
@@ -152,6 +153,7 @@ export const VaultAddFundsCard: FC<Props> = ({ vault, ...props }) => {
                 type="text"
                 sx={{ width: 130, "& .MuiOutlinedInput-input": { py: 1 } }}
                 InputProps={{
+                  id: amountInputId,
                   inputComponent: NumberFormatCurrency as any,
                 }}
                 onKeyDown={(e) => {

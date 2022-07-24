@@ -16,13 +16,15 @@ export const CreateCompanyStepFive = observer(() => {
       <Box width="100%">
         <Grid container columnSpacing={3.5} rowSpacing={3.5}>
           {vaults?.length > 0 &&
-            vaults.map((vault, index) => {
-              return (
-                <Grid key={index} item xs={12} sm={4}>
-                  <VaultAddFundsCard vault={vault} />
-                </Grid>
-              );
-            })}
+            vaults
+              .sort((va, vb) => (va.name + va.address).localeCompare(vb.name + vb.address))
+              .map((vault, index) => {
+                return (
+                  <Grid key={vault.name + vault.address} item xs={12} sm={4}>
+                    <VaultAddFundsCard vault={vault} />
+                  </Grid>
+                );
+              })}
         </Grid>
         <Box
           width="100%"
