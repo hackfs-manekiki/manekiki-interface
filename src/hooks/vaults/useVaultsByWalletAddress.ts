@@ -21,7 +21,7 @@ export const useVaultsByWalletAddress = (walletAddress?: string) => {
   // const [error, setError] = useState()
   const { account } = useWeb3React();
   const { data, error } = useSWR([`/vault/vault/:walletAddress`, walletAddress], () =>
-    fetchVaultsByWalletAddress(walletAddress ?? account),
+    fetchVaultsByWalletAddress(walletAddress?.toLowerCase() ?? account?.toLowerCase()),
   );
 
   return {

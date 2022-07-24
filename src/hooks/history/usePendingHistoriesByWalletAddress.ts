@@ -25,7 +25,7 @@ export const usePendingHistoriesByWalletAddress = (walletAddress?: string) => {
   // const [error, setError] = useState()
   const { account } = useWeb3React();
   const { data, error } = useSWR([`/vault/request/:walletAddress/pending`, walletAddress], () =>
-    fetchPendingHistoriesByWalletAddress(walletAddress ?? account),
+    fetchPendingHistoriesByWalletAddress(walletAddress?.toLowerCase() ?? account?.toLowerCase()),
   );
 
   return {

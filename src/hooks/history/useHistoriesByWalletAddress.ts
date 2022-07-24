@@ -24,7 +24,7 @@ export const useHistoriesByWalletAddress = (walletAddress?: string) => {
   // const [error, setError] = useState()
   const { account } = useWeb3React();
   const { data, error } = useSWR([`/vault/request/:walletAddress`, walletAddress], () =>
-    fetchHistoriesByWalletAddress(walletAddress ?? account),
+    fetchHistoriesByWalletAddress(walletAddress?.toLowerCase() ?? account?.toLowerCase()),
   );
 
   return {
