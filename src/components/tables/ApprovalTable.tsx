@@ -20,8 +20,8 @@ import { useWeb3React } from "@web3-react/core";
 import { useUserVaults } from "src/hooks/vaults/useUserVaults";
 import { ethers } from "ethers";
 import { VaultABI } from "src/abis";
-import { RequestHistory } from "src/interfaces/request";
 import { shortenAddress } from "src/utils/shortenAddress";
+import type { RequestHistory } from "src/interfaces/request";
 
 const mockArray = () => {
   const arr = [];

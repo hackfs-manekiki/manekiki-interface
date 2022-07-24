@@ -61,10 +61,12 @@ export const CreateCompanyStepOne: FC<Props> = ({ onKeyDown }) => {
             createCompanyStore.nextStep();
             localStorage.setItem(
               "companies",
-              JSON.stringify({
-                name: createCompanyStore.companyName,
-                slug: createCompanyStore.companySlug,
-              }),
+              JSON.stringify([
+                {
+                  name: createCompanyStore.companyName,
+                  slug: createCompanyStore.companySlug,
+                },
+              ]),
             );
           }}
         >
